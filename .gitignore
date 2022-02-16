@@ -2,3 +2,4 @@ venv/
 .idea/
 credentials.json
 token.json
+*.pickle
