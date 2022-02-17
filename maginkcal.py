@@ -16,7 +16,6 @@ import sys
 from pytz import timezone
 
 from gcal.gcal import GcalHelper
-from power.power import PowerHelper
 from render.render import RenderHelper
 
 
@@ -53,7 +52,6 @@ def main():
         # Note: For Python datetime.weekday() - Monday = 0, Sunday = 6
         # For this implementation, each week starts on a Sunday and the calendar begins on the nearest elapsed Sunday
         # The calendar will also display 5 weeks of events to cover the upcoming month, ending on a Saturday
-        powerService = PowerHelper()
         # powerService.sync_time()
         # currBatteryLevel = powerService.get_battery()
         # logger.info('Battery level at start: {:.3f}'.format(currBatteryLevel))
@@ -90,23 +88,10 @@ def main():
             displayService.update(calBlackImage, calRedImage)
             displayService.sleep()
 
-        # currBatteryLevel = powerService.get_battery()
-        # logger.info('Battery level at end: {:.3f}'.format(currBatteryLevel))
-
     except Exception as e:
         logger.error(e)
 
     logger.info("Completed daily calendar update")
-
-    logger.info("Checking if configured to shutdown safely - Current hour: {}".format(currDatetime.hour))
-    if isShutdownOnComplete:
-        # implementing a failsafe so that we don't shutdown when debugging
-        # checking if it's 6am in the morning, which is the time I've set PiSugar to wake and refresh the calendar
-        # if it is 6am, shutdown the RPi. if not 6am, assume I'm debugging the code, so do not shutdown
-        if currDatetime.hour == 6:
-            logger.info("Shutting down safely.")
-            import os
-            os.system("sudo shutdown -h now")
 
 
 if __name__ == "__main__":

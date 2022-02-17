@@ -1,5 +1,5 @@
 {
-  "displayTZ": "Asia/Hong_Kong",
+  "displayTZ": "America/Chicago",
   "thresholdHours": 24,
   "maxEventsPerDay": 3,
   "isDisplayToScreen": false,
@@ -15,10 +15,10 @@
     "S",
     "S"
   ],
-  "screenWidth": 1304,
-  "screenHeight": 984,
-  "imageWidth": 984,
-  "imageHeight": 1304,
+  "screenWidth": 800,
+  "screenHeight": 480,
+  "imageWidth": 480,
+  "imageHeight": 800,
   "rotateAngle": 270,
   "is24h": false,
   "calendars": [
