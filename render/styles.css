@@ -96,7 +96,7 @@ Calendar Styling */
 }
 
 .month {
-    font-size: 13rem;
+    font-size: 7rem;
     font-family: "Quattrocento-Regular";
 }
 
@@ -114,7 +114,7 @@ Calendar Styling */
 }
 
 .calendar .day-names {
-    font-size: 3.5rem;
+    font-size: 2rem;
     line-height: 1.2;
     font-family: "Quattrocento-Regular";
 }
@@ -137,7 +137,7 @@ Calendar Styling */
 
 .calendar .date {
     text-align: center;
-    font-size: 3rem;
+    font-size: 2rem;
     font-weight: bold;
     font-family: "Quattrocento-Regular";
 }
@@ -152,7 +152,7 @@ Calendar Styling */
     height: 4rem;
     border-radius: 2rem;
     font-family: "Quattrocento-Regular";
-    font-size: 3rem;
+    font-size: 2rem;
     color: white;
     line-height: 4rem;
     text-align: center;
