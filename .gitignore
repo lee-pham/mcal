@@ -4,4 +4,3 @@ credentials.json
 token.json
 *.pickle
 logfile.log
-calendar.html

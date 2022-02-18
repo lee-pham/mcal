@@ -148,13 +148,13 @@ Calendar Styling */
 
 .datecircle {
     margin: 0rem auto;
-    width: 4rem;
-    height: 4rem;
+    width: 3rem;
+    height: 3rem;
     border-radius: 2rem;
     font-family: "Quattrocento-Regular";
     font-size: 2rem;
     color: white;
-    line-height: 4rem;
+    line-height: 3rem;
     text-align: center;
     vertical-align: middle;
     background: #ff0000;
