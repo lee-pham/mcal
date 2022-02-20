@@ -128,7 +128,7 @@ Calendar Styling */
 
 .calendar .days li {
     /* min-height: 12rem; */
-    min-height: 11.5rem;
+    min-height: 7.05rem;
 }
 
 .calendar .days li .date {

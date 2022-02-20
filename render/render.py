@@ -107,7 +107,8 @@ class RenderHelper:
         # calDict = {'events': eventList, 'calStartDate': calStartDate, 'today': currDate, 'lastRefresh': currDatetime, 'batteryLevel': batteryLevel}
         # first setup list to represent the 5 weeks in our calendar
         calList = []
-        for i in range(35):
+        weeks_to_display = 4
+        for i in range(weeks_to_display * 7):
             calList.append([])
 
         # retrieve calendar configuration
