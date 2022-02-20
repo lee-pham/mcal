@@ -136,6 +136,9 @@ class RenderHelper:
         # Insert month header
         month_name = str(calDict['today'].month)
 
+        # Insert year header
+        year_name = str(calDict['today'].year)
+
         # Insert battery icon
         # batteryDisplayMode - 0: do not show / 1: always show / 2: show when battery is low
         # battLevel = calDict['batteryLevel']
@@ -184,7 +187,8 @@ class RenderHelper:
         # Append the bottom and write the file
         htmlFile = open(self.currPath + '/calendar.html', "w")
         htmlFile.write(calendar_template.format(month=month_name, dayOfWeek=cal_days_of_week,
-                                                events=cal_events_text, current_time=current_time))
+                                                events=cal_events_text, current_time=current_time,
+                                                year=year_name))
         htmlFile.close()
 
         calBlackImage, calRedImage = self.get_screenshot()
