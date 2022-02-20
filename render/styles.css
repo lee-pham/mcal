@@ -97,12 +97,16 @@ Calendar Styling */
 
 .top-header {
     font-family: Quattrocento-Regular;
+    margin: 1rem;
+}
+
+.time-info {
+    font-size: 1.25rem;
 }
 
 .month {
-    font-size: 7rem;
+    font-size: 10rem;
     font-family: "Quattrocento-Regular";
-    padding-bottom: .75rem;
 }
 
 @media (min-width: 992px) {
