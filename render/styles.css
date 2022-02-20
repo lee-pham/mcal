@@ -95,6 +95,10 @@ Calendar Styling */
     border-radius: 0px;
 }
 
+.top-header {
+    font-family: Quattrocento-Regular;
+}
+
 .month {
     font-size: 7rem;
     font-family: "Quattrocento-Regular";
