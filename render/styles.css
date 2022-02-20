@@ -98,6 +98,7 @@ Calendar Styling */
 .month {
     font-size: 7rem;
     font-family: "Quattrocento-Regular";
+    padding-bottom: .75rem;
 }
 
 @media (min-width: 992px) {
