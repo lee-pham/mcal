@@ -1,5 +1,9 @@
 # MagInkCal
 
+# TODO:
+
+* year and time font need to be slightly smaller than the calendar day font
+
 This repo contains the code needed to drive an E-Ink Magic Calendar that uses a battery powered (PiSugar2) Raspberry Pi
 Zero WH to retrieve events from a Google Calendar, format it into the desired layout, before pushing it to a Waveshare
 12.48" tri-color E-Ink display. Note that the code has only been tested on the specific hardware mentioned, and
