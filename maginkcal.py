@@ -57,10 +57,11 @@ def main():
         # logger.info('Battery level at start: {:.3f}'.format(currBatteryLevel))
 
         currDatetime = dt.datetime.now(displayTZ)
+        current_time = currDatetime.strftime("%H:%M")
         logger.info("Time synchronised to {}".format(currDatetime))
         currDate = currDatetime.date()
         calStartDate = currDate - dt.timedelta(days=((currDate.weekday() + (7 - weekStartDay)) % 7))
-        calEndDate = calStartDate + dt.timedelta(days=(5 * 7 - 1))
+        calEndDate = calStartDate + dt.timedelta(days=(4 * 7 - 1))
         calStartDatetime = displayTZ.localize(dt.datetime.combine(calStartDate, dt.datetime.min.time()))
         calEndDatetime = displayTZ.localize(dt.datetime.combine(calEndDate, dt.datetime.max.time()))
 
@@ -74,7 +75,7 @@ def main():
         calDict = {'events': eventList, 'calStartDate': calStartDate, 'today': currDate, 'lastRefresh': currDatetime,
                    'batteryDisplayMode': batteryDisplayMode,
                    'dayOfWeekText': dayOfWeekText, 'weekStartDay': weekStartDay, 'maxEventsPerDay': maxEventsPerDay,
-                   'is24hour': is24hour}
+                   'is24hour': is24hour, "current_time": current_time}
 
         renderService = RenderHelper(imageWidth, imageHeight, rotateAngle)
         calBlackImage, calRedImage = renderService.process_inputs(calDict)

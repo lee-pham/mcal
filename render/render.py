@@ -105,7 +105,7 @@ class RenderHelper:
 
     def process_inputs(self, calDict):
         # calDict = {'events': eventList, 'calStartDate': calStartDate, 'today': currDate, 'lastRefresh': currDatetime, 'batteryLevel': batteryLevel}
-        # first setup list to represent the 5 weeks in our calendar
+        # first setup list to represent the weeks in our calendar
         calList = []
         weeks_to_display = 4
         for i in range(weeks_to_display * 7):
@@ -117,6 +117,7 @@ class RenderHelper:
         dayOfWeekText = calDict['dayOfWeekText']
         weekStartDay = calDict['weekStartDay']
         is24hour = calDict['is24hour']
+        current_time = calDict["current_time"]
 
         # for each item in the eventList, add them to the relevant day in our calendar list
         for event in calDict['events']:
@@ -137,7 +138,7 @@ class RenderHelper:
 
         # Insert battery icon
         # batteryDisplayMode - 0: do not show / 1: always show / 2: show when battery is low
-        # battLevel = calDict['batssssteryLevel']
+        # battLevel = calDict['batteryLevel']
 
         # Populate the day of week row
         cal_days_of_week = ''
@@ -173,7 +174,7 @@ class RenderHelper:
                 elif event['allday']:
                     cal_events_text += '">' + event['summary']
                 else:
-                    cal_events_text += '">' + f"{event['summary'][:10]}.............{self.get_short_time(event['startDatetime'], is24hour)}"
+                    cal_events_text += '">' + f"{event['summary'][:10]} {self.get_short_time(event['startDatetime'], is24hour)}"
                 cal_events_text += '</div>\n'
             if len(calList[i]) > maxEventsPerDay:
                 cal_events_text += '<div class="event text-muted">' + str(len(calList[i]) - maxEventsPerDay) + ' more'
@@ -183,7 +184,7 @@ class RenderHelper:
         # Append the bottom and write the file
         htmlFile = open(self.currPath + '/calendar.html', "w")
         htmlFile.write(calendar_template.format(month=month_name, dayOfWeek=cal_days_of_week,
-                                                events=cal_events_text))
+                                                events=cal_events_text, current_time=current_time))
         htmlFile.close()
 
         calBlackImage, calRedImage = self.get_screenshot()
