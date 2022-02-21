@@ -158,6 +158,8 @@ class RenderHelper:
                 cal_events_text += '<li><div class="datecircle">' + str(dayOfMonth) + '</div>\n'
             elif currDate.month != calDict['today'].month:
                 cal_events_text += '<li><div class="date text-muted">' + str(dayOfMonth) + '</div>\n'
+            elif currDate.weekday() in (5, 6):
+                cal_events_text += '<li><div class="date" style="color:red;">' + str(dayOfMonth) + '</div>\n'
             else:
                 cal_events_text += '<li><div class="date">' + str(dayOfMonth) + '</div>\n'
 
