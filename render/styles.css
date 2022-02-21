@@ -45,7 +45,7 @@
 
 dl, ol, ul {
     margin-top: 0;
-    margin-bottom: 1rem;
+    margin-bottom: 0rem;
 }
 
 body {
@@ -124,9 +124,10 @@ Calendar Styling */
 }
 
 .calendar .day-names {
-    font-size: 2rem;
+    font-size: 1.5rem;
     line-height: 1.2;
     font-family: "Quattrocento-Regular";
+    margin-top: .75rem;
 }
 
 .calendar .day-names li {
@@ -141,8 +142,7 @@ Calendar Styling */
 }
 
 .calendar .days li .date {
-    margin: 0.5rem 0;
-    line-height: 1.0;
+    line-height: 1;
 }
 
 .calendar .date {
@@ -158,16 +158,17 @@ Calendar Styling */
 
 .datecircle {
     margin: 0rem auto;
-    width: 3rem;
-    height: 3rem;
+    width: 4rem;
+    height: 4rem;
     border-radius: 2rem;
     font-family: "Quattrocento-Regular";
     font-size: 2rem;
     color: white;
-    line-height: 3rem;
+    line-height: 4rem;
     text-align: center;
     vertical-align: middle;
     background: #ff0000;
+    margin-top: -1rem;
 }
 
 .calendar .days li .event {
