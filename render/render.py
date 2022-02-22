@@ -179,7 +179,7 @@ class RenderHelper:
                 elif event['allday']:
                     cal_events_text += '">' + event['summary']
                 else:
-                    cal_events_text += '<div class="event text-muted">' + f"{event['summary']}"
+                    cal_events_text += f""""> {event['summary']}"""
                 cal_events_text += '</div>\n'
             if len(calList[i]) > maxEventsPerDay:
                 cal_events_text += '<div class="event" style="color:red;">' + str(
