@@ -179,7 +179,7 @@ Calendar Styling */
     /* font-family: "Judson-Regular";*/
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;
+    /*text-overflow: ellipsis;*/
     border-radius: 0rem;
     margin-bottom: 1px;
 }

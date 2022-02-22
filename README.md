@@ -2,10 +2,15 @@
 
 # TODO:
 
-- [ ] year and time font need to be slightly smaller than the calendar day font
+- [x] year and time font need to be slightly smaller than the calendar day font
 - [ ] noto serif
 - [ ] roboto slab
-- [ ] bitter
+- [ ] bitter (font)
+- [ ] long line for multi day events
+- [ ] ocerflow in red, event in gray
+- [ ] multiday line in red
+- [ ] triangle is all day event indicator for single day. add a space
+- [ ] dot indicator to denote you should be at event
 
 This repo contains the code needed to drive an E-Ink Magic Calendar that uses a battery powered (PiSugar2) Raspberry Pi
 Zero WH to retrieve events from a Google Calendar, format it into the desired layout, before pushing it to a Waveshare
