@@ -43,17 +43,18 @@ fig, ax = plt.subplots(figsize=(8.8, 4), constrained_layout=True)
 current_time = datetime.now().strftime("%H:%M")
 
 # Black line for the entire timeline
-ax.plot([0, 24 * 60], [0, 0], "-", color="k")
+ax.plot([0, 24 * 60], [0, 0], "-", color="k", linewidth=.75)
 # Gray for time that has passed
-ax.plot([0, military_to_minutes(current_time)], [0, 0], "-", color="#6c757d")
+ax.plot([0, military_to_minutes(current_time)], [0, 0], "-", color="#6c757d", linewidth=.75)
 
 # Red tick for current time
 ax.plot(military_to_minutes(current_time), 0, "|", color="r")
 
 for event in event_list:
+    summary_with_time = f'{event["start"]} {event["summary"]}'
     ax.plot(military_to_minutes(event["start"]), 0, "o",
             color=is_complete(event)["color"], markerfacecolor=is_complete(event)["markerfacecolor"])
-    ax.annotate(event["summary"], (military_to_minutes(event["start"]), is_complete(event)["xy"]), color=is_complete(event)["color"])
+    ax.annotate(summary_with_time, (military_to_minutes(event["start"]), is_complete(event)["xy"]), color=is_complete(event)["color"])
 
 # annotate lines
 # for i, txt in enumerate(events):
