@@ -4,3 +4,4 @@ credentials.json
 token.json
 *.pickle
 logfile.log
+.DS_Store
