@@ -31,7 +31,7 @@ def is_complete(event: dict) -> dict:
         return {
             "color": "k",
             "markerfacecolor": "w",
-            "xy": -.005
+            "xy": -.0075
         }
 
 
@@ -53,10 +53,11 @@ ax.plot(military_to_minutes(current_time), 0, "|", color="r")
 for event in event_list:
     ax.plot(military_to_minutes(event["start"]), 0, "o",
             color=is_complete(event)["color"], markerfacecolor=is_complete(event)["markerfacecolor"])
+    ax.annotate(event["summary"], (military_to_minutes(event["start"]), is_complete(event)["xy"]))
 
 # annotate lines
-for i, txt in enumerate(events):
-    ax.annotate(txt, ([military_to_minutes(event["start"]) for event in event_list][i], .005))
+# for i, txt in enumerate(events):
+#     ax.annotate(txt, ([military_to_minutes(event["start"]) for event in event_list][i], .005))
 
 # remove x, y axis and spines
 ax.xaxis.set_visible(False)
