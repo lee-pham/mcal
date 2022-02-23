@@ -1,6 +1,6 @@
 {
   "displayTZ": "America/Chicago",
-  "thresholdHours": 24,
+  "thresholdHours": 0,
   "maxEventsPerDay": 3,
   "isDisplayToScreen": false,
   "isShutdownOnComplete": false,
