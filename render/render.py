@@ -139,10 +139,6 @@ class RenderHelper:
         # Insert year header
         year_name = str(calDict['today'].year)
 
-        # Insert battery icon
-        # batteryDisplayMode - 0: do not show / 1: always show / 2: show when battery is low
-        # battLevel = calDict['batteryLevel']
-
         # Populate the day of week row
         cal_days_of_week = ''
         for i in range(0, 7):
@@ -156,6 +152,8 @@ class RenderHelper:
             dayOfMonth = currDate.day
             if currDate == calDict['today']:
                 cal_events_text += '<li><div class="datecircle">' + str(dayOfMonth) + '</div>\n'
+                today = "\n".join([event["summary"] for event in calList[i]])
+                calList[i] = []
             elif currDate.month != calDict['today'].month:
                 cal_events_text += '<li><div class="date text-muted">' + str(dayOfMonth) + '</div>\n'
             elif currDate.weekday() in (5, 6):
@@ -191,7 +189,7 @@ class RenderHelper:
         htmlFile = open(self.currPath + '/calendar.html', "w")
         htmlFile.write(calendar_template.format(month=month_name, dayOfWeek=cal_days_of_week,
                                                 events=cal_events_text, current_time=current_time,
-                                                year=year_name))
+                                                year=year_name, today=today))
         htmlFile.close()
 
         calBlackImage, calRedImage = self.get_screenshot()
