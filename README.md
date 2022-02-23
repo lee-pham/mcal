@@ -11,6 +11,8 @@
 - [ ] multiday line in red
 - [ ] bullet point is all day event indicator for single day
 - [x] thinner line for timeline line
+- [ ] text start aligns with dot
+- [ ] fix overlapping as it's not perfected yet
 
 This repo contains the code needed to drive an E-Ink Magic Calendar that uses a battery powered (PiSugar2) Raspberry Pi
 Zero WH to retrieve events from a Google Calendar, format it into the desired layout, before pushing it to a Waveshare
