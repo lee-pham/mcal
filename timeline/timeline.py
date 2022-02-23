@@ -20,14 +20,18 @@ def military_to_minutes(time_in_military: str) -> int:
 def is_complete(event: dict) -> dict:
     current_time = datetime.now().strftime("%H:%M")
     if military_to_minutes(current_time) >= military_to_minutes(event["end"]):
+        # complete
         return {
             "color": "#6c757d",
-            "markerfacecolor": "#6c757d"
+            "markerfacecolor": "#6c757d",
+            "xy": .005
         }
     else:
+        # incomplete
         return {
             "color": "k",
-            "markerfacecolor": "w"
+            "markerfacecolor": "w",
+            "xy": -.005
         }
 
 
