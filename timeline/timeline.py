@@ -4,17 +4,31 @@ import matplotlib.dates as mdates
 from datetime import datetime
 
 event_list = [
-    {"summary": "Dentist", "start": "08:00"},
-    {"summary": "Work", "start": "08:30"},
-    {"summary": "Lunch", "start": "12:00"},
-    {"summary": "Pottery", "start": "18:00"},
-    {"summary": "Lee", "start": "22:00"},
+    {"summary": "Dentist", "start": "08:00", "end": "09:00"},
+    {"summary": "Work", "start": "08:30", "end": "09:00"},
+    {"summary": "Lunch", "start": "12:00", "end": "13:00"},
+    {"summary": "Pottery", "start": "18:00", "end": "21:00"},
+    {"summary": "Lee", "start": "22:00", "end": "23:59"},
 ]
 
 
 def military_to_minutes(time_in_military: str) -> int:
     hours, minutes = time_in_military.split(":")
     return int(hours) * 60 + int(minutes)
+
+
+def is_complete(event: dict) -> dict:
+    current_time = datetime.now().strftime("%H:%M")
+    if military_to_minutes(current_time) >= military_to_minutes(event["end"]):
+        return {
+            "color": "#6c757d",
+            "markerfacecolor": "#6c757d"
+        }
+    else:
+        return {
+            "color": "k",
+            "markerfacecolor": "w"
+        }
 
 
 events = [f'{event["start"]} {event["summary"]}' for event in event_list]
@@ -31,8 +45,10 @@ ax.plot([0, military_to_minutes(current_time)], [0, 0], "-", color="#6c757d")
 
 # Red tick for current time
 ax.plot(military_to_minutes(current_time), 0, "|", color="r")
-ax.plot([military_to_minutes(event["start"]) for event in event_list], np.zeros_like(events), "-o",
-        color="k", markerfacecolor="w")  # Baseline and markers on it.
+
+for event in event_list:
+    ax.plot(military_to_minutes(event["start"]), 0, "o",
+            color=is_complete(event)["color"], markerfacecolor=is_complete(event)["markerfacecolor"])
 
 # annotate lines
 for i, txt in enumerate(events):
