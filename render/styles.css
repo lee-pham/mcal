@@ -214,15 +214,6 @@ Calendar Styling */
 }
 
 div.batt_container {
-    width: 53px;
-    height: 27px;
-    position: absolute;
-    top: 5;
-    left: 925;
-    overflow: hidden;
-}
-
-div.batt_container {
     z-index: 10;
 }
 

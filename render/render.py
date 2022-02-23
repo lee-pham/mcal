@@ -152,7 +152,7 @@ class RenderHelper:
             dayOfMonth = currDate.day
             if currDate == calDict['today']:
                 cal_events_text += '<li><div class="datecircle">' + str(dayOfMonth) + '</div>\n'
-                today = "\n".join([event["summary"] for event in calList[i]])
+                today = "<br>".join([event["summary"] for event in calList[i]])
                 calList[i] = []
             elif currDate.month != calDict['today'].month:
                 cal_events_text += '<li><div class="date text-muted">' + str(dayOfMonth) + '</div>\n'
