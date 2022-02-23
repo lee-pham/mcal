@@ -3,43 +3,45 @@ import numpy as np
 import matplotlib.dates as mdates
 from datetime import datetime
 
-# In case the above fails, e.g. because of missing internet connection
-# use the following lists as fallback.
-names = ["", "Dentist", "Lunch", "Pottery", "Lee", ""]
+event_list = [
+    {"summary": "Dentist", "start": "08:00"},
+    {"summary": "Work", "start": "08:30"},
+    {"summary": "Lunch", "start": "12:00"},
+    {"summary": "Pottery", "start": "18:00"},
+    {"summary": "Lee", "start": "22:00"},
+]
 
-dates = [0, 800, 1200, 1800, 2200, 2400]
 
-current_time = datetime.now().
+def military_to_minutes(time_in_military: str) -> int:
+    hours, minutes = time_in_military.split(":")
+    return int(hours) * 60 + int(minutes)
 
-# Convert date strings (e.g. 2014-10-18) to datetime
-# dates = [datetime.strptime(d, "%Y-%m-%d") for d in dates]
-dates = [d for d in dates]
 
-# Choose some nice levels
-# levels = np.tile([1, 1, 1, 1, 1, 1],
-#                  int(np.ceil(len(dates) / 6)))[:len(dates)]
+events = [f'{event["start"]} {event["summary"]}' for event in event_list]
 
 # Create figure and plot a stem plot with the date
 fig, ax = plt.subplots(figsize=(8.8, 4), constrained_layout=True)
 
-# ax.vlines(dates, 0, levels, color="tab:red")  # The vertical stems.
-ax.plot(dates, np.zeros_like(dates), "-o",
+current_time = datetime.now().strftime("%H:%M")
+
+# Black line for the entire timeline
+ax.plot([0, 24 * 60], [0, 0], "-", color="k")
+# Gray for time that has passed
+ax.plot([0, military_to_minutes(current_time)], [0, 0], "-", color="#6c757d")
+
+# Red tick for current time
+ax.plot(military_to_minutes(current_time), 0, "|", color="r")
+ax.plot([military_to_minutes(event["start"]) for event in event_list], np.zeros_like(events), "-o",
         color="k", markerfacecolor="w")  # Baseline and markers on it.
 
-# plt.xlim([0, 2400])
-
 # annotate lines
-for i, txt in enumerate(names):
-    ax.annotate(txt, (dates[i], .005))
+for i, txt in enumerate(events):
+    ax.annotate(txt, ([military_to_minutes(event["start"]) for event in event_list][i], .005))
 
-# format xaxis with 4 month intervals
-# ax.xaxis.set_major_locator(mdates.MonthLocator(interval=4))
-# ax.xaxis.set_major_formatter(mdates.DateFormatter("%b %Y"))
-plt.setp(ax.get_xticklabels(), rotation=30, ha="right")
-
-# remove y axis and spines
+# remove x, y axis and spines
+ax.xaxis.set_visible(False)
 ax.yaxis.set_visible(False)
-ax.spines[["left", "top", "right"]].set_visible(False)
+ax.spines[["left", "top", "right", "bottom"]].set_visible(False)
 
 ax.margins(y=0.1)
 plt.show()
