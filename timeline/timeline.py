@@ -53,7 +53,7 @@ ax.plot(military_to_minutes(current_time), 0, "|", color="r")
 for event in event_list:
     ax.plot(military_to_minutes(event["start"]), 0, "o",
             color=is_complete(event)["color"], markerfacecolor=is_complete(event)["markerfacecolor"])
-    ax.annotate(event["summary"], (military_to_minutes(event["start"]), is_complete(event)["xy"]))
+    ax.annotate(event["summary"], (military_to_minutes(event["start"]), is_complete(event)["xy"]), color=is_complete(event)["color"])
 
 # annotate lines
 # for i, txt in enumerate(events):
