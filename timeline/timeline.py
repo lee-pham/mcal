@@ -11,6 +11,9 @@ event_list = [
     {"summary": "Lee", "start": "22:00", "end": "23:59"},
 ]
 
+# Constants
+GRAY = "#6c757d"
+TIMELINE_WIDTH = .75
 
 def military_to_minutes(time_in_military: str) -> int:
     hours, minutes = time_in_military.split(":")
@@ -23,7 +26,7 @@ def is_complete(event: dict) -> dict:
         # complete
         return {
             "color": "#6c757d",
-            "markerfacecolor": "#6c757d",
+            "markerfacecolor": GRAY,
             "xy": .005
         }
     else:
@@ -35,17 +38,15 @@ def is_complete(event: dict) -> dict:
         }
 
 
-events = [f'{event["start"]} {event["summary"]}' for event in event_list]
-
 # Create figure and plot a stem plot with the date
 fig, ax = plt.subplots(figsize=(8.8, 4), constrained_layout=True)
 
 current_time = datetime.now().strftime("%H:%M")
 
 # Black line for the entire timeline
-ax.plot([0, 24 * 60], [0, 0], "-", color="k", linewidth=.75)
+ax.plot([0, 24 * 60], [0, 0], "-", color="k", linewidth=TIMELINE_WIDTH)
 # Gray for time that has passed
-ax.plot([0, military_to_minutes(current_time)], [0, 0], "-", color="#6c757d", linewidth=.75)
+ax.plot([0, military_to_minutes(current_time)], [0, 0], "-", color=GRAY, linewidth=TIMELINE_WIDTH)
 
 # Red tick for current time
 ax.plot(military_to_minutes(current_time), 0, "|", color="r")
@@ -54,7 +55,8 @@ for event in event_list:
     summary_with_time = f'{event["start"]} {event["summary"]}'
     ax.plot(military_to_minutes(event["start"]), 0, "o",
             color=is_complete(event)["color"], markerfacecolor=is_complete(event)["markerfacecolor"])
-    ax.annotate(summary_with_time, (military_to_minutes(event["start"]), is_complete(event)["xy"]), color=is_complete(event)["color"])
+    ax.annotate(summary_with_time, (military_to_minutes(event["start"]), is_complete(event)["xy"]),
+                color=is_complete(event)["color"])
 
 # annotate lines
 # for i, txt in enumerate(events):
