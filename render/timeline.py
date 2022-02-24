@@ -25,7 +25,7 @@ def is_complete(event: dict) -> dict:
         }
     elif military_to_minutes(event["startDatetime"].strftime("%H:%M")) < military_to_minutes(
             current_time) and military_to_minutes(
-            current_time) <= military_to_minutes(event["endDatetime"].strftime("%H:%M")):
+        current_time) <= military_to_minutes(event["endDatetime"].strftime("%H:%M")):
         # in progress
         return {
             "color": "k",
@@ -41,6 +41,15 @@ def is_complete(event: dict) -> dict:
         }
 
 
+def get_date_ordinal(day) -> str:
+    if 4 <= day <= 20 or 24 <= day <= 30:
+        suffix = "th"
+    else:
+        suffix = ["st", "nd", "rd"][day % 10 - 1]
+
+    return f"{day}{suffix}"
+
+
 class Timeline:
     def __init__(self, event_list):
         self.event_list = event_list
@@ -54,7 +63,7 @@ class Timeline:
         # ]
         self.current_datetime = datetime.now()
         self.current_time = self.current_datetime.strftime("%H:%M")
-        self.current_day = self.current_datetime.today()
+        self.current_day = self.current_datetime.date()
 
     def render(self):
         # Create figure and plot a stem plot with the date
@@ -73,8 +82,12 @@ class Timeline:
 
         texts = []
         for event in self.event_list:
-            summary_with_time = f'{event["startDatetime"].strftime("%H:%M")} ' * (
-                not event["allday"]) + f'{event["summary"]}'
+            if event["allday"]:
+                summary_with_time = event["summary"]
+                if event["isMultiday"] and event["endDatetime"].date() != self.current_day:
+                    summary_with_time += f" (until the {get_date_ordinal(int(event['endDatetime'].strftime('%d')))})"
+            else:
+                summary_with_time = f'{event["startDatetime"].strftime("%H:%M")} {event["summary"]}'
 
             ax.plot(
                 military_to_minutes(event["startDatetime"].strftime("%H:%M")), 0,
@@ -93,6 +106,6 @@ class Timeline:
         ax.margins(y=0.1)
 
         adjust_text(texts, only_move={
-                    'points': 'y', 'text': 'y', 'objects': 'y'}, ha='left', va='bottom')
+            'points': 'y', 'text': 'y', 'objects': 'y'}, ha='left', va='bottom')
         # plt.show()
         fig.savefig("render/timeline.png", bbox_inches='tight', transparent=True)
