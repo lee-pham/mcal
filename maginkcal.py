@@ -11,6 +11,7 @@ CSS stylesheets in the "render" folder.
 import datetime as dt
 import json
 import logging
+import platform
 import sys
 
 from pytz import timezone
@@ -20,6 +21,9 @@ from render.render import RenderHelper
 
 
 def main():
+    # Only drive the EPD when running on Raspberry Pi
+    is_rpi = platform.system() == "Linux"
+
     # Basic configuration settings (user replaceable)
     configFile = open('config.json')
     config = json.load(configFile)
@@ -74,7 +78,7 @@ def main():
         logger.info("Time synchronised to {}".format(currDatetime))
         currDate = currDatetime.date()
         calStartDate = currDate - \
-            dt.timedelta(days=((currDate.weekday() + (7 - weekStartDay)) % 7))
+                       dt.timedelta(days=((currDate.weekday() + (7 - weekStartDay)) % 7))
         calEndDate = calStartDate + dt.timedelta(days=(4 * 7 - 1))
         calStartDatetime = displayTZ.localize(
             dt.datetime.combine(calStartDate, dt.datetime.min.time()))
@@ -97,7 +101,7 @@ def main():
         renderService = RenderHelper(imageWidth, imageHeight, rotateAngle)
         calBlackImage, calRedImage = renderService.process_inputs(calDict)
 
-        if False:
+        if is_rpi:
             from display.display import DisplayHelper
             displayService = DisplayHelper(screenWidth, screenHeight)
             if currDate.weekday() == weekStartDay:
