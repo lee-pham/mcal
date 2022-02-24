@@ -1,4 +1,4 @@
-# MagInkCal
+# Magic Calendar
 
 # TODO:
 ### Calendar
