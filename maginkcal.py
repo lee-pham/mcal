@@ -83,7 +83,7 @@ def main():
         renderService = RenderHelper(imageWidth, imageHeight, rotateAngle)
         calBlackImage, calRedImage = renderService.process_inputs(calDict)
 
-        if isDisplayToScreen:
+        if True:
             from display.display import DisplayHelper
             displayService = DisplayHelper(screenWidth, screenHeight)
             if currDate.weekday() == weekStartDay:

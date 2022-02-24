@@ -5,3 +5,4 @@ token.json
 *.pickle
 logfile.log
 .DS_Store
+__pycache__/
