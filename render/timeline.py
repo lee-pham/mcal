@@ -84,5 +84,5 @@ class Timeline:
     ax.margins(y=0.1)
 
     adjust_text(texts, only_move={'points': 'y', 'text': 'y', 'objects': 'y'}, ha='left', va='bottom')
-    plt.show()
-    fig.savefig("render/timeline.png", bbox_inches='tight')
+    # plt.show()
+    fig.savefig("render/timeline.png", bbox_inches='tight', transparent=True)
