@@ -8,7 +8,7 @@ import logging
 
 from PIL import Image
 
-import display.epd12in48b as eink
+import display.epd7in5b_V2 as eink
 
 
 class DisplayHelper:
