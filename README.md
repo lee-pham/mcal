@@ -1,7 +1,7 @@
 # MagInkCal
 
 # TODO:
-## Calendar
+### Calendar
 - [x] year and time font need to be slightly smaller than the calendar day font
 - [ ] noto serif
 - [ ] roboto slab
@@ -11,7 +11,7 @@
 - [ ] multiday line in red
 - [ ] bullet point is all day event indicator for single day
 
-## Timeline
+### Timeline
 - [x] thinner line for timeline line
 - [ ] text start aligns with dot
 - [ ] fix overlapping as it's not perfected yet
