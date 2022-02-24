@@ -1,5 +1,6 @@
-import matplotlib.pyplot as plt
 from datetime import datetime
+
+import matplotlib.pyplot as plt
 from adjustText import adjust_text
 
 event_list = [
@@ -14,6 +15,7 @@ event_list = [
 # Constants
 GRAY = "#6c757d"
 TIMELINE_WIDTH = .75
+RED_TICK_SIZE = 15
 
 
 def military_to_minutes(time_in_military: str) -> int:
@@ -26,8 +28,16 @@ def is_complete(event: dict) -> dict:
     if military_to_minutes(current_time) >= military_to_minutes(event["end"]):
         # complete
         return {
-            "color": "#6c757d",
+            "color": GRAY,
             "markerfacecolor": GRAY,
+            "xy": .01
+        }
+    elif military_to_minutes(event["start"]) < military_to_minutes(current_time) and military_to_minutes(
+            current_time) <= military_to_minutes(event["end"]):
+        # in progress
+        return {
+            "color": "k",
+            "markerfacecolor": "k",
             "xy": .01
         }
     else:
@@ -50,7 +60,7 @@ ax.plot([0, 24 * 60], [0, 0], "-", color="k", linewidth=TIMELINE_WIDTH)
 ax.plot([0, military_to_minutes(current_time)], [0, 0], "-", color=GRAY, linewidth=TIMELINE_WIDTH)
 
 # Red tick for current time
-ax.plot(military_to_minutes(current_time), 0, "|", color="r")
+ax.plot(military_to_minutes(current_time), 0, "|", color="r", markersize=RED_TICK_SIZE)
 
 texts = []
 for event in event_list:
@@ -73,5 +83,5 @@ ax.spines[["left", "top", "right", "bottom"]].set_visible(False)
 ax.margins(y=0.1)
 
 adjust_text(texts, only_move={'points': 'y', 'text': 'y', 'objects': 'y'}, ha='left', va='bottom')
-# adjust_text(texts)
-plt.show()
+# plt.show()
+fig.savefig("timeline.png")
