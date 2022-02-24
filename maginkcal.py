@@ -21,6 +21,7 @@ from render.timeline import Timeline
 
 Timeline()
 
+
 def main():
     # Basic configuration settings (user replaceable)
     configFile = open('config.json')
