@@ -17,7 +17,9 @@ from pytz import timezone
 
 from gcal.gcal import GcalHelper
 from render.render import RenderHelper
+from render.timeline import Timeline
 
+Timeline()
 
 def main():
     # Basic configuration settings (user replaceable)
