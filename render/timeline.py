@@ -16,15 +16,16 @@ def military_to_minutes(time_in_military: str) -> int:
 
 def is_complete(event: dict) -> dict:
     current_time = datetime.now().strftime("%H:%M")
-    if military_to_minutes(current_time) >= military_to_minutes(event["endDatetime"]):
+    if military_to_minutes(current_time) >= military_to_minutes(event["endDatetime"].strftime("%H:%M")):
         # complete
         return {
             "color": GRAY,
             "markerfacecolor": GRAY,
             "xy": .01
         }
-    elif military_to_minutes(event["startDatetime"]) < military_to_minutes(current_time) and military_to_minutes(
-            current_time) <= military_to_minutes(event["endDatetime"]):
+    elif military_to_minutes(event["startDatetime"].strftime("%H:%M")) < military_to_minutes(
+            current_time) and military_to_minutes(
+            current_time) <= military_to_minutes(event["endDatetime"].strftime("%H:%M")):
         # in progress
         return {
             "color": "k",
@@ -43,14 +44,14 @@ def is_complete(event: dict) -> dict:
 class Timeline:
     def __init__(self, event_list):
         self.event_list = event_list
-        self.event_list = [
-            {"summary": "Dentist", "startDatetime": "08:00", "endDatetime": "09:00"},
-            {"summary": "Work", "startDatetime": "08:30", "endDatetime": "09:00"},
-            {"summary": "Lunch", "startDatetime": "12:00", "endDatetime": "13:00"},
-            {"summary": "Coffee", "startDatetime": "12:15", "endDatetime": "12:30"},
-            {"summary": "Pottery", "startDatetime": "18:00", "endDatetime": "21:00"},
-            {"summary": "Lee", "startDatetime": "22:00", "endDatetime": "23:59"},
-        ]
+        # self.event_list = [
+        #     {"summary": "Dentist", "startDatetime": "08:00", "endDatetime": "09:00"},
+        #     {"summary": "Work", "startDatetime": "08:30", "endDatetime": "09:00"},
+        #     {"summary": "Lunch", "startDatetime": "12:00", "endDatetime": "13:00"},
+        #     {"summary": "Coffee", "startDatetime": "12:15", "endDatetime": "12:30"},
+        #     {"summary": "Pottery", "startDatetime": "18:00", "endDatetime": "21:00"},
+        #     {"summary": "Lee", "startDatetime": "22:00", "endDatetime": "23:59"},
+        # ]
         self.current_datetime = datetime.now()
         self.current_time = self.current_datetime.strftime("%H:%M")
         self.current_day = self.current_datetime.today()
@@ -72,15 +73,16 @@ class Timeline:
 
         texts = []
         for event in self.event_list:
-            summary_with_time = f'{event["startDatetime"]} {event["summary"]}'
+            summary_with_time = f'{event["startDatetime"].strftime("%H:%M")} ' * (
+                not event["allday"]) + f'{event["summary"]}'
 
             ax.plot(
-                military_to_minutes(event["startDatetime"]), 0,
+                military_to_minutes(event["startDatetime"].strftime("%H:%M")), 0,
                 "o", color=is_complete(event)["color"], markerfacecolor=is_complete(event)["markerfacecolor"])
 
             texts.append(
                 ax.text(s=summary_with_time,
-                        x=military_to_minutes(event["startDatetime"]), y=is_complete(event)["xy"],
+                        x=military_to_minutes(event["startDatetime"].strftime("%H:%M")), y=is_complete(event)["xy"],
                         color=is_complete(event)["color"])
             )
 

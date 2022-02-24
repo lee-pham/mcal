@@ -24,8 +24,6 @@ from render.timeline import Timeline
 
 
 class RenderHelper:
-    Timeline(None).render()
-
     def __init__(self, width, height, angle):
         self.logger = logging.getLogger('maginkcal')
         self.currPath = str(pathlib.Path(__file__).parent.absolute())
@@ -46,9 +44,9 @@ class RenderHelper:
 
         # "Internal width you want to set+Set "outer frame width" to window size
         target_width = self.imageWidth + \
-            (current_window_size["width"] - inner_width)
+                       (current_window_size["width"] - inner_width)
         target_height = self.imageHeight + \
-            (current_window_size["height"] - inner_height)
+                        (current_window_size["height"] - inner_height)
 
         driver.set_window_rect(
             width=target_width,
@@ -127,7 +125,6 @@ class RenderHelper:
 
         # retrieve calendar configuration
         maxEventsPerDay = calDict['maxEventsPerDay']
-        batteryDisplayMode = calDict['batteryDisplayMode']
         dayOfWeekText = calDict['dayOfWeekText']
         weekStartDay = calDict['weekStartDay']
         is24hour = calDict['is24hour']
@@ -168,17 +165,18 @@ class RenderHelper:
             dayOfMonth = currDate.day
             if currDate == calDict['today']:
                 cal_events_text += '<li><div class="datecircle">' + \
-                    str(dayOfMonth) + '</div>\n'
+                                   str(dayOfMonth) + '</div>\n'
                 timeline_events = calList[i]
+                calList[i] = {}
             elif currDate.month != calDict['today'].month:
                 cal_events_text += '<li><div class="date text-muted">' + \
-                    str(dayOfMonth) + '</div>\n'
+                                   str(dayOfMonth) + '</div>\n'
             elif currDate.weekday() in (5, 6):
                 cal_events_text += '<li><div class="date" style="color:red;">' + \
-                    str(dayOfMonth) + '</div>\n'
+                                   str(dayOfMonth) + '</div>\n'
             else:
                 cal_events_text += '<li><div class="date">' + \
-                    str(dayOfMonth) + '</div>\n'
+                                   str(dayOfMonth) + '</div>\n'
 
             for j in range(min(len(calList[i]), maxEventsPerDay)):
                 event = calList[i][j]
@@ -205,6 +203,8 @@ class RenderHelper:
             cal_events_text += '</li>\n'
 
         # Append the bottom and write the file
+        print(timeline_events)
+        Timeline(timeline_events).render()
         htmlFile = open(self.currPath + '/calendar.html', "w")
         htmlFile.write(calendar_template.format(month=month_name, dayOfWeek=cal_days_of_week,
                                                 events=cal_events_text, current_time=current_time,
@@ -212,5 +212,4 @@ class RenderHelper:
         htmlFile.close()
 
         calBlackImage, calRedImage = self.get_screenshot()
-        print(timeline_events)
         return calBlackImage, calRedImage
