@@ -16,15 +16,15 @@ def military_to_minutes(time_in_military: str) -> int:
 
 def is_complete(event: dict) -> dict:
     current_time = datetime.now().strftime("%H:%M")
-    if military_to_minutes(current_time) >= military_to_minutes(event["end"]):
+    if military_to_minutes(current_time) >= military_to_minutes(event["endDatetime"]):
         # complete
         return {
             "color": GRAY,
             "markerfacecolor": GRAY,
             "xy": .01
         }
-    elif military_to_minutes(event["start"]) < military_to_minutes(current_time) and military_to_minutes(
-            current_time) <= military_to_minutes(event["end"]):
+    elif military_to_minutes(event["startDatetime"]) < military_to_minutes(current_time) and military_to_minutes(
+            current_time) <= military_to_minutes(event["endDatetime"]):
         # in progress
         return {
             "color": "k",
@@ -41,48 +41,56 @@ def is_complete(event: dict) -> dict:
 
 
 class Timeline:
-    event_list = [
-        {"summary": "Dentist", "start": "08:00", "end": "09:00"},
-        {"summary": "Work", "start": "08:30", "end": "09:00"},
-        {"summary": "Lunch", "start": "12:00", "end": "13:00"},
-        {"summary": "Coffee", "start": "12:15", "end": "12:30"},
-        {"summary": "Pottery", "start": "18:00", "end": "21:00"},
-        {"summary": "Lee", "start": "22:00", "end": "23:59"},
-    ]
+    def __init__(self, event_list):
+        self.event_list = event_list
+        self.event_list = [
+            {"summary": "Dentist", "startDatetime": "08:00", "endDatetime": "09:00"},
+            {"summary": "Work", "startDatetime": "08:30", "endDatetime": "09:00"},
+            {"summary": "Lunch", "startDatetime": "12:00", "endDatetime": "13:00"},
+            {"summary": "Coffee", "startDatetime": "12:15", "endDatetime": "12:30"},
+            {"summary": "Pottery", "startDatetime": "18:00", "endDatetime": "21:00"},
+            {"summary": "Lee", "startDatetime": "22:00", "endDatetime": "23:59"},
+        ]
+        self.current_datetime = datetime.now()
+        self.current_time = self.current_datetime.strftime("%H:%M")
+        self.current_day = self.current_datetime.today()
 
-    # Create figure and plot a stem plot with the date
-    # fig, ax = plt.subplots(figsize=(8.8, 4), constrained_layout=True)
-    fig, ax = plt.subplots(figsize=(8.8, 4), constrained_layout=False)
-    current_time = datetime.now().strftime("%H:%M")
+    def render(self):
+        # Create figure and plot a stem plot with the date
+        # fig, ax = plt.subplots(figsize=(8.8, 4), constrained_layout=True)
+        fig, ax = plt.subplots(figsize=(8.8, 4), constrained_layout=False)
 
-    # Black line for the entire timeline
-    ax.plot([0, 24 * 60], [0, 0], "-", color="k", linewidth=TIMELINE_WIDTH)
-    # Gray for time that has passed
-    ax.plot([0, military_to_minutes(current_time)], [0, 0], "-", color=GRAY, linewidth=TIMELINE_WIDTH)
+        # Black line for the entire timeline
+        ax.plot([0, 24 * 60], [0, 0], "-", color="k", linewidth=TIMELINE_WIDTH)
+        # Gray for time that has passed
+        ax.plot([0, military_to_minutes(self.current_time)], [0, 0],
+                "-", color=GRAY, linewidth=TIMELINE_WIDTH)
 
-    # Red tick for current time
-    ax.plot(military_to_minutes(current_time), 0, "|", color="r", markersize=RED_TICK_SIZE)
+        # Red tick for current time
+        ax.plot(military_to_minutes(self.current_time), 0,
+                "|", color="r", markersize=RED_TICK_SIZE)
 
-    texts = []
-    for event in event_list:
-        summary_with_time = f'{event["start"]} {event["summary"]}'
+        texts = []
+        for event in self.event_list:
+            summary_with_time = f'{event["startDatetime"]} {event["summary"]}'
 
-        ax.plot(
-            military_to_minutes(event["start"]), 0,
-            "o", color=is_complete(event)["color"], markerfacecolor=is_complete(event)["markerfacecolor"])
+            ax.plot(
+                military_to_minutes(event["startDatetime"]), 0,
+                "o", color=is_complete(event)["color"], markerfacecolor=is_complete(event)["markerfacecolor"])
 
-        texts.append(
-            ax.text(s=summary_with_time,
-                    x=military_to_minutes(event["start"]), y=is_complete(event)["xy"],
-                    color=is_complete(event)["color"])
-        )
+            texts.append(
+                ax.text(s=summary_with_time,
+                        x=military_to_minutes(event["startDatetime"]), y=is_complete(event)["xy"],
+                        color=is_complete(event)["color"])
+            )
 
-    # remove x, y axis and spines
-    ax.xaxis.set_visible(False)
-    ax.yaxis.set_visible(False)
-    ax.spines[["left", "top", "right", "bottom"]].set_visible(False)
-    ax.margins(y=0.1)
+        # remove x, y axis and spines
+        ax.xaxis.set_visible(False)
+        ax.yaxis.set_visible(False)
+        ax.spines[["left", "top", "right", "bottom"]].set_visible(False)
+        ax.margins(y=0.1)
 
-    adjust_text(texts, only_move={'points': 'y', 'text': 'y', 'objects': 'y'}, ha='left', va='bottom')
-    # plt.show()
-    fig.savefig("render/timeline.png", bbox_inches='tight', transparent=True)
+        adjust_text(texts, only_move={
+                    'points': 'y', 'text': 'y', 'objects': 'y'}, ha='left', va='bottom')
+        # plt.show()
+        fig.savefig("render/timeline.png", bbox_inches='tight', transparent=True)

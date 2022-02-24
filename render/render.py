@@ -20,8 +20,11 @@ from PIL import Image
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
+from render.timeline import Timeline
+
 
 class RenderHelper:
+    Timeline(None).render()
 
     def __init__(self, width, height, angle):
         self.logger = logging.getLogger('maginkcal')
@@ -42,8 +45,10 @@ class RenderHelper:
         inner_height = int(html.get_attribute("clientHeight"))
 
         # "Internal width you want to set+Set "outer frame width" to window size
-        target_width = self.imageWidth + (current_window_size["width"] - inner_width)
-        target_height = self.imageHeight + (current_window_size["height"] - inner_height)
+        target_width = self.imageWidth + \
+            (current_window_size["width"] - inner_width)
+        target_height = self.imageHeight + \
+            (current_window_size["height"] - inner_height)
 
         driver.set_window_rect(
             width=target_width,
@@ -68,18 +73,23 @@ class RenderHelper:
         blackimg = Image.open(self.currPath + '/calendar.png')  # get image)
         bpixels = blackimg.load()  # create the pixel map
 
-        for i in range(redimg.size[0]):  # loop through every pixel in the image
-            for j in range(redimg.size[1]):  # since both bitmaps are identical, cycle only once and not both bitmaps
+        # loop through every pixel in the image
+        for i in range(redimg.size[0]):
+            # since both bitmaps are identical, cycle only once and not both bitmaps
+            for j in range(redimg.size[1]):
                 if rpixels[i, j][0] <= rpixels[i, j][1] and rpixels[i, j][0] <= rpixels[i, j][2]:  # if is not red
-                    rpixels[i, j] = (255, 255, 255)  # change it to white in the red image bitmap
+                    # change it to white in the red image bitmap
+                    rpixels[i, j] = (255, 255, 255)
 
                 elif bpixels[i, j][0] > bpixels[i, j][1] and bpixels[i, j][0] > bpixels[i, j][2]:  # if is red
-                    bpixels[i, j] = (255, 255, 255)  # change to white in the black image bitmap
+                    # change to white in the black image bitmap
+                    bpixels[i, j] = (255, 255, 255)
 
         redimg = redimg.rotate(self.rotateAngle, expand=True)
         blackimg = blackimg.rotate(self.rotateAngle, expand=True)
 
-        self.logger.info('Image colours processed. Extracted grayscale and red images.')
+        self.logger.info(
+            'Image colours processed. Extracted grayscale and red images.')
         return blackimg, redimg
 
     def get_day_in_cal(self, startDate, eventDate):
@@ -89,7 +99,8 @@ class RenderHelper:
     def get_short_time(self, datetimeObj, is24hour=False):
         datetime_str = ''
         if is24hour:
-            datetime_str = '{}:{:02d}'.format(datetimeObj.hour, datetimeObj.minute)
+            datetime_str = '{}:{:02d}'.format(
+                datetimeObj.hour, datetimeObj.minute)
         else:
             if datetimeObj.minute > 0:
                 datetime_str = '.{:02d}'.format(datetimeObj.minute)
@@ -99,9 +110,11 @@ class RenderHelper:
             elif datetimeObj.hour == 12:
                 datetime_str = '12{}pm'.format(datetime_str)
             elif datetimeObj.hour > 12:
-                datetime_str = '{}{}pm'.format(str(datetimeObj.hour % 12), datetime_str)
+                datetime_str = '{}{}pm'.format(
+                    str(datetimeObj.hour % 12), datetime_str)
             else:
-                datetime_str = '{}{}am'.format(str(datetimeObj.hour), datetime_str)
+                datetime_str = '{}{}am'.format(
+                    str(datetimeObj.hour), datetime_str)
         return datetime_str
 
     def process_inputs(self, calDict):
@@ -122,11 +135,13 @@ class RenderHelper:
 
         # for each item in the eventList, add them to the relevant day in our calendar list
         for event in calDict['events']:
-            idx = self.get_day_in_cal(calDict['calStartDate'], event['startDatetime'].date())
+            idx = self.get_day_in_cal(
+                calDict['calStartDate'], event['startDatetime'].date())
             if idx >= 0:
                 calList[idx].append(event)
             if event['isMultiday']:
-                idx = self.get_day_in_cal(calDict['calStartDate'], event['endDatetime'].date())
+                idx = self.get_day_in_cal(
+                    calDict['calStartDate'], event['endDatetime'].date())
                 if idx < len(calList):
                     calList[idx].append(event)
 
@@ -152,15 +167,18 @@ class RenderHelper:
             currDate = calDict['calStartDate'] + timedelta(days=i)
             dayOfMonth = currDate.day
             if currDate == calDict['today']:
-                cal_events_text += '<li><div class="datecircle">' + str(dayOfMonth) + '</div>\n'
-                today = "<br>".join([event["summary"] for event in calList[i]])
-                calList[i] = []
+                cal_events_text += '<li><div class="datecircle">' + \
+                    str(dayOfMonth) + '</div>\n'
+                timeline_events = calList[i]
             elif currDate.month != calDict['today'].month:
-                cal_events_text += '<li><div class="date text-muted">' + str(dayOfMonth) + '</div>\n'
+                cal_events_text += '<li><div class="date text-muted">' + \
+                    str(dayOfMonth) + '</div>\n'
             elif currDate.weekday() in (5, 6):
-                cal_events_text += '<li><div class="date" style="color:red;">' + str(dayOfMonth) + '</div>\n'
+                cal_events_text += '<li><div class="date" style="color:red;">' + \
+                    str(dayOfMonth) + '</div>\n'
             else:
-                cal_events_text += '<li><div class="date">' + str(dayOfMonth) + '</div>\n'
+                cal_events_text += '<li><div class="date">' + \
+                    str(dayOfMonth) + '</div>\n'
 
             for j in range(min(len(calList[i]), maxEventsPerDay)):
                 event = calList[i][j]
@@ -190,9 +208,9 @@ class RenderHelper:
         htmlFile = open(self.currPath + '/calendar.html', "w")
         htmlFile.write(calendar_template.format(month=month_name, dayOfWeek=cal_days_of_week,
                                                 events=cal_events_text, current_time=current_time,
-                                                year=year_name, today=today))
+                                                year=year_name))
         htmlFile.close()
 
         calBlackImage, calRedImage = self.get_screenshot()
-
+        print(timeline_events)
         return calBlackImage, calRedImage

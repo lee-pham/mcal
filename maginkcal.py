@@ -17,9 +17,6 @@ from pytz import timezone
 
 from gcal.gcal import GcalHelper
 from render.render import RenderHelper
-from render.timeline import Timeline
-
-Timeline()
 
 
 def main():
@@ -27,26 +24,39 @@ def main():
     configFile = open('config.json')
     config = json.load(configFile)
 
-    displayTZ = timezone(config['displayTZ'])  # list of timezones - print(pytz.all_timezones)
-    thresholdHours = config['thresholdHours']  # considers events updated within last 12 hours as recently updated
-    maxEventsPerDay = config['maxEventsPerDay']  # limits number of events to display (remainder displayed as '+X more')
-    isDisplayToScreen = config['isDisplayToScreen']  # set to true when debugging rendering without displaying to screen
-    isShutdownOnComplete = config['isShutdownOnComplete']  # set to true to conserve power, false if in debugging mode
-    batteryDisplayMode = config['batteryDisplayMode']  # 0: do not show / 1: always show / 2: show when battery is low
+    # list of timezones - print(pytz.all_timezones)
+    displayTZ = timezone(config['displayTZ'])
+    # considers events updated within last 12 hours as recently updated
+    thresholdHours = config['thresholdHours']
+    # limits number of events to display (remainder displayed as '+X more')
+    maxEventsPerDay = config['maxEventsPerDay']
+    # set to true when debugging rendering without displaying to screen
+    isDisplayToScreen = config['isDisplayToScreen']
+    # set to true to conserve power, false if in debugging mode
+    isShutdownOnComplete = config['isShutdownOnComplete']
+    # 0: do not show / 1: always show / 2: show when battery is low
+    batteryDisplayMode = config['batteryDisplayMode']
     weekStartDay = config['weekStartDay']  # Monday = 0, Sunday = 6
     dayOfWeekText = config['dayOfWeekText']  # Monday as first item in list
-    screenWidth = config['screenWidth']  # Width of E-Ink display. Default is landscape. Need to rotate image to fit.
-    screenHeight = config['screenHeight']  # Height of E-Ink display. Default is landscape. Need to rotate image to fit.
-    imageWidth = config['imageWidth']  # Width of image to be generated for display.
-    imageHeight = config['imageHeight']  # Height of image to be generated for display.
-    rotateAngle = config['rotateAngle']  # If image is rendered in portrait orientation, angle to rotate to fit screen
+    # Width of E-Ink display. Default is landscape. Need to rotate image to fit.
+    screenWidth = config['screenWidth']
+    # Height of E-Ink display. Default is landscape. Need to rotate image to fit.
+    screenHeight = config['screenHeight']
+    # Width of image to be generated for display.
+    imageWidth = config['imageWidth']
+    # Height of image to be generated for display.
+    imageHeight = config['imageHeight']
+    # If image is rendered in portrait orientation, angle to rotate to fit screen
+    rotateAngle = config['rotateAngle']
     calendars = config['calendars']  # Google calendar ids
     is24hour = config['is24h']  # set 24 hour time
 
     # Create and configure logger
-    logging.basicConfig(filename="logfile.log", format='%(asctime)s %(levelname)s - %(message)s', filemode='a')
+    logging.basicConfig(filename="logfile.log",
+                        format='%(asctime)s %(levelname)s - %(message)s', filemode='a')
     logger = logging.getLogger('maginkcal')
-    logger.addHandler(logging.StreamHandler(sys.stdout))  # print logger to stdout
+    logger.addHandler(logging.StreamHandler(
+        sys.stdout))  # print logger to stdout
     logger.setLevel(logging.INFO)
     logger.info("Starting daily calendar update")
 
@@ -63,32 +73,38 @@ def main():
         current_time = currDatetime.strftime("%H:%M")
         logger.info("Time synchronised to {}".format(currDatetime))
         currDate = currDatetime.date()
-        calStartDate = currDate - dt.timedelta(days=((currDate.weekday() + (7 - weekStartDay)) % 7))
+        calStartDate = currDate - \
+            dt.timedelta(days=((currDate.weekday() + (7 - weekStartDay)) % 7))
         calEndDate = calStartDate + dt.timedelta(days=(4 * 7 - 1))
-        calStartDatetime = displayTZ.localize(dt.datetime.combine(calStartDate, dt.datetime.min.time()))
-        calEndDatetime = displayTZ.localize(dt.datetime.combine(calEndDate, dt.datetime.max.time()))
+        calStartDatetime = displayTZ.localize(
+            dt.datetime.combine(calStartDate, dt.datetime.min.time()))
+        calEndDatetime = displayTZ.localize(
+            dt.datetime.combine(calEndDate, dt.datetime.max.time()))
 
         # Using Google Calendar to retrieve all events within start and end date (inclusive)
         start = dt.datetime.now()
         gcalService = GcalHelper()
-        eventList = gcalService.retrieve_events(calendars, calStartDatetime, calEndDatetime, displayTZ, thresholdHours)
-        logger.info("Calendar events retrieved in " + str(dt.datetime.now() - start))
+        eventList = gcalService.retrieve_events(
+            calendars, calStartDatetime, calEndDatetime, displayTZ, thresholdHours)
+        logger.info("Calendar events retrieved in " +
+                    str(dt.datetime.now() - start))
 
         # Populate dictionary with information to be rendered on e-ink display
         calDict = {'events': eventList, 'calStartDate': calStartDate, 'today': currDate, 'lastRefresh': currDatetime,
                    'batteryDisplayMode': batteryDisplayMode,
                    'dayOfWeekText': dayOfWeekText, 'weekStartDay': weekStartDay, 'maxEventsPerDay': maxEventsPerDay,
                    'is24hour': is24hour, "current_time": current_time}
-
+        print(calDict["events"])
         renderService = RenderHelper(imageWidth, imageHeight, rotateAngle)
         calBlackImage, calRedImage = renderService.process_inputs(calDict)
 
-        if True:
+        if False:
             from display.display import DisplayHelper
             displayService = DisplayHelper(screenWidth, screenHeight)
             if currDate.weekday() == weekStartDay:
                 # calibrate display once a week to prevent ghosting
-                displayService.calibrate(cycles=0)  # to calibrate in production
+                # to calibrate in production
+                displayService.calibrate(cycles=0)
             displayService.update(calBlackImage, calRedImage)
             displayService.sleep()
 
