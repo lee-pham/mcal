@@ -1,7 +1,15 @@
 # Magic Calendar
 
 # TODO:
+
+## Bugs
+
+- [ ] if current day of multiday event is between the start and end day, event does not show up on timeline
+
+## UI
+
 ### Calendar
+
 - [x] year and time font need to be slightly smaller than the calendar day font
 - [x] ocerflow in red, event in gray
 - [ ] noto serif
@@ -145,18 +153,3 @@ installed, so feel free to ping me if you noticed anything missing and I'll add 
 - [/u/aceisace](https://www.reddit.com/user/aceisace/): For the tips on E-Ink development and
   the [InkyCal](https://github.com/aceisace/Inkycal) repo (worth checking out even though I didn't use it for this
   project).
-
-## Contributing
-
-I won't be updating this code much, since it has been serving me well. Nevertheless, feel free to fork the repo and
-modify it for your own purpose. At the same time, check out other similar projects, such
-as [InkyCal](https://github.com/aceisace/Inkycal). It's much more polished and also actively developed.
-
-## What's Next
-
-Honestly, the cost of this project is way too high for a single purpose device. Personally, I've been looking at E-Ink
-tablets that emulate the experience of writing on paper, and allow the users to take notes on the go. Those familiar
-with this range of products would be aware of the reMarkable tablet, Ratta Supernote, Kobo Elipsa and many others. My
-next project is likely to enhance one of these devices such that the calendar will be displayed when it's not in use.
-While this is usually possible by manually setting the sleep screen image / screensaver, I'm looking to have the
-screensaver updated automatically on a daily basis, like how it was done in this project.
