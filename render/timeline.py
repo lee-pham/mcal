@@ -9,6 +9,7 @@ TIMELINE_WIDTH = .75
 RED_TICK_SIZE = 15
 TIMELINE_WORDS = False
 
+
 def military_to_minutes(time_in_military: str) -> int:
     hours, minutes = time_in_military.split(":")
     return int(hours) * 60 + int(minutes)
@@ -83,10 +84,16 @@ class Timeline:
         texts = []
         for event in self.event_list:
             if event["allday"]:
-                summary_with_time = f'• {event["summary"]} •'
+                text_style = "italic"
                 if event["isMultiday"] and event["endDatetime"].date() != self.current_day and TIMELINE_WORDS:
                     summary_with_time += f" (until the {get_date_ordinal(int(event['endDatetime'].strftime('%d')))})"
+                if event["isMultiday"]:
+                    summary_with_time = f'• {event["summary"]} •'
+                else:
+                    summary_with_time = f'{event["summary"]}'
+
             else:
+                text_style = "normal"
                 summary_with_time = f'{event["startDatetime"].strftime("%H:%M")} {event["summary"]}'
 
             ax.plot(
@@ -96,7 +103,7 @@ class Timeline:
             texts.append(
                 ax.text(s=summary_with_time,
                         x=military_to_minutes(event["startDatetime"].strftime("%H:%M")), y=is_complete(event)["xy"],
-                        color=is_complete(event)["color"], style="italic")
+                        color=is_complete(event)["color"], style=text_style)
             )
 
         # remove x, y axis and spines

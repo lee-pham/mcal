@@ -24,8 +24,8 @@
 - [x] thinner line for timeline line
 - [x] filled black circle while event is going on
 - [x] all day event as 00:00 event
-- [ ] all day multi day italics surrounded by bullet
-- [ ] all day single day is italics no bullet
+- [x] all day multi day italics surrounded by bullet
+- [x] all day single day is italics no bullet
 - [ ] text start aligns with dot
 - [ ] fix overlapping as it's not perfected yet
 
