@@ -18,6 +18,17 @@ def generate_all_day_event_for_today_if_today_falls_between_multiday_event(event
     return modified_event_list
 
 
+today = datetime.datetime.now().date()
+multiday_event = [
+    {'summary': "Sleepover at Vicky's",
+     'allday': False,
+     'startDatetime': datetime.datetime(today.year - 1, 2, 24, 10, 0),
+     'endDatetime': datetime.datetime(today.year + 1, 3, 1, 10, 30),
+     'isUpdated': False,
+     'isMultiday': True}
+]
+
+
 def test_should_return_same_input_if_no_multiday_event():
     event_list = [
         {'summary': "Sleepover at Vicky's",
@@ -31,7 +42,6 @@ def test_should_return_same_input_if_no_multiday_event():
 
 
 def test_should_return_event_with_start_datetime_of_today():
-    today = datetime.datetime.now().date()
     event_list = [
         {'summary': "Sleepover at Vicky's",
          'allday': False,
@@ -40,5 +50,9 @@ def test_should_return_event_with_start_datetime_of_today():
          'isUpdated': False,
          'isMultiday': True}
     ]
-    assert generate_all_day_event_for_today_if_today_falls_between_multiday_event(event_list)[0][
+    assert generate_all_day_event_for_today_if_today_falls_between_multiday_event(multiday_event)[0][
                "startDatetime"] == datetime.datetime(today.year, today.month, today.day)
+
+
+def test_multiday_event_returns_two_events():
+    assert len(generate_all_day_event_for_today_if_today_falls_between_multiday_event(multiday_event)) == 2
