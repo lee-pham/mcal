@@ -7,7 +7,7 @@ from adjustText import adjust_text
 GRAY = "#6c757d"
 TIMELINE_WIDTH = .75
 RED_TICK_SIZE = 15
-TIMELINE_WORDS = False
+USE_TIMELINE_WORDS = False  # Set to True if you want the number of days remaining to be displayed for multiday events
 
 
 def military_to_minutes(time_in_military: str) -> int:
@@ -85,9 +85,9 @@ class Timeline:
         for event in self.event_list:
             if event["allday"]:
                 text_style = "italic"
-                if event["isMultiday"] and event["endDatetime"].date() != self.current_day and TIMELINE_WORDS:
+                if event["isMultiday"] and event["endDatetime"].date() != self.current_day and USE_TIMELINE_WORDS:
                     summary_with_time += f" (until the {get_date_ordinal(int(event['endDatetime'].strftime('%d')))})"
-                if event["isMultiday"]:
+                if event["isMultiday"] and not USE_TIMELINE_WORDS:
                     summary_with_time = f'• {event["summary"]} •'
                 else:
                     summary_with_time = f'{event["summary"]}'
