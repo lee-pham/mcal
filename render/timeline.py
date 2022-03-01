@@ -86,7 +86,7 @@ class Timeline:
             if event["allday"]:
                 text_style = "italic"
                 if event["isMultiday"] and event["endDatetime"].date() != self.current_day and USE_TIMELINE_WORDS:
-                    summary_with_time += f" (until the {get_date_ordinal(int(event['endDatetime'].strftime('%d')))})"
+                    summary_with_time = f" (until the {get_date_ordinal(int(event['endDatetime'].strftime('%d')))})"
                 if event["isMultiday"] and not USE_TIMELINE_WORDS:
                     summary_with_time = f'• {event["summary"]} •'
                 else:
