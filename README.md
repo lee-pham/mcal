@@ -29,14 +29,6 @@
 - [ ] text start aligns with dot
 - [ ] fix overlapping as it's not perfected yet
 
-This repo contains the code needed to drive an E-Ink Magic Calendar that uses a battery powered (PiSugar2) Raspberry Pi
-Zero WH to retrieve events from a Google Calendar, format it into the desired layout, before pushing it to a Waveshare
-12.48" tri-color E-Ink display. Note that the code has only been tested on the specific hardware mentioned, and
-customization of the code is necessary for it to work with other E-Ink displays or Battery/RTC add-ons. That said, enjoy
-working on your project and hopefully this helps to jump-start your magic calendar journey.
-
-![20210924_175459](https://user-images.githubusercontent.com/5581989/134661608-bac1f0bf-e7e3-41fe-b92e-37c26dad8fbe.jpg)
-
 ## Hardware Required
 
 - [Raspberry Pi Zero WH](https://www.raspberrypi.org/blog/zero-wh/) - Header pins are needed to connect to the E-Ink
@@ -44,22 +36,10 @@ working on your project and hopefully this helps to jump-start your magic calend
 - [Waveshare 12.48" Tri-color E-Ink Display](https://www.waveshare.com/product/12.48inch-e-paper-module-b.htm) -
   Unfortunately out of stock at the time this is published
 
-## How It Works
+## Some features of the calendar:
 
-Through PiSugar2's web interface, the onboard RTC can be set to wake and trigger the RPi to boot up daily at a time of
-your preference. Upon boot, a cronjob on the RPi is triggered to run a Python script that fetches calendar events from
-Google Calendar for the next few weeks, and formats them into the desired layout before displaying it on the E-Ink
-display. The RPi then shuts down to conserve battery. The calendar remains displayed on the E-Ink screen, because well,
-E-Ink...
-
-Some features of the calendar:
-
-- Battery life is the big question so I'll address it first. I'm getting around 3-4 weeks before needing to recharge the
-  PiSugar2. I'm fairly happy with this but I'm sure this can be extended if I optimize the code further.
 - Since I had the luxury of using red for the E-Ink display, I used it to highlight the current date, as well as
   recently added/updated events.
-- I don't like having long bars that span across multiple days for multi-day events, so I chose to display only the
-  start and end dates for those events, and adding small left/right arrows accordingly,
 - Given limited space (oh why are large E-Ink screens still so expensive!) and resolution on the display, I could only
   show 3 events per day and an indicator (e.g. 4 more) for those not displayed
 - The calendar always starts from the current week, and displays the next four (total 35 days). If the dates cross over
@@ -82,13 +62,7 @@ sudo raspi-config
 3. Run the following commands in the RPi Terminal to setup the environment to run the Python scripts.
 
 ```shell
-sudo apt update
-sudo apt-get install python3-pip
-sudo apt-get install chromium-chromedriver
-pip3 install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
-pip3 install pytz
-pip3 install selenium
-pip3 install Pillow
+sudo apt install chromium????
 ```
 
 6. Download the over the files in this repo to a folder in your PC first.
@@ -127,7 +101,7 @@ PS: I'm aware that the instructions above may not be complete, especially when i
 installed, so feel free to ping me if you noticed anything missing and I'll add it to the steps above.
 
 ## Acknowledgements
-
+- [MagInkCal](https://github.com/speedyg0nz/maginkcal): Built out the initial concept and is the backbone of this code
 - [Quattrocento Font](https://fonts.google.com/specimen/Quattrocento): Font used for the calendar display
 - [Bootstrap Calendar CSS](https://bootstrapious.com/p/bootstrap-calendar): Stylesheet that was adapted heavily for the
   calendar display
