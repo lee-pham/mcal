@@ -5,13 +5,34 @@ def enumerate_multiday_event(event_list: list) -> list:
     enumerated_event_list = []
     for event in event_list:
         if event["isMultiday"]:
-            duration = event["endDatetime"] - event["startDatetime"]
-            for date in [event["startDatetime"] + datetime.timedelta(i) for i in range(duration.days)]:
+            duration = event["endDatetime"] +datetime.timedelta(microseconds=1)- event["startDatetime"]
+            print("@@@@@",event["summary"], duration)
+
+            enumerated_event = {
+                "summary": event["summary"],
+                "startDatetime": event["startDatetime"],
+                "endDatetime": event["startDatetime"] + datetime.timedelta(1) - datetime.timedelta(microseconds=1),
+                "isMultiday": True,
+                "isUpdated": event["isUpdated"]}
+            enumerated_event_list.append(enumerated_event)
+
+            for date in [event["startDatetime"] + datetime.timedelta(i) for i in range(1, duration.days)]:
                 enumerated_event = {
-                    "summary": event["summary"],
+                    "summary": "&nbsp;",
                     "startDatetime": date,
                     "endDatetime": date + datetime.timedelta(1) - datetime.timedelta(microseconds=1),
-                    "isMultiday": True}
+                    "isMultiday": True,
+                    "isUpdated": event["isUpdated"]}
+                last_date = date
+                enumerated_event_list.append(enumerated_event)
+            
+            if duration.seconds + duration.microseconds > 0:
+                enumerated_event = {
+                    "summary": "&nbsp;",
+                    "startDatetime": last_date + datetime.timedelta(1),
+                    "endDatetime": event["endDatetime"],
+                    "isMultiday": True,
+                    "isUpdated": event["isUpdated"]}
                 enumerated_event_list.append(enumerated_event)
 
         else:

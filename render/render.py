@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
 This script essentially generates a HTML file of the calendar I wish to display. It then fires up a headless Chrome
 instance, sized to the resolution of the eInk display and takes a screenshot. This screenshot will then be processed
@@ -15,11 +13,9 @@ import logging
 import pathlib
 from datetime import timedelta
 from time import sleep
-
 from PIL import Image
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-
 from render.timeline import Timeline
 
 
@@ -131,6 +127,9 @@ class RenderHelper:
 
         # for each item in the eventList, add them to the relevant day in our calendar list
         for event in calDict['events']:
+            # Do not attempt to render multiday events that span passed the calendar end
+            if event["startDatetime"].date() > calDict["calEndDate"]:
+                continue
             idx = self.get_day_in_cal(
                 calDict['calStartDate'], event['startDatetime'].date())
             if idx >= 0:
@@ -202,7 +201,7 @@ class RenderHelper:
 
         # Append the bottom and write the file
         print(calList)
-        print(timeline_events)
+        # print(timeline_events)
         Timeline(timeline_events).render()
         htmlFile = open(self.currPath + '/calendar.html', "w")
         htmlFile.write(calendar_template.format(month=month_name, dayOfWeek=cal_days_of_week,

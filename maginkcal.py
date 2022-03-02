@@ -95,7 +95,7 @@ def main():
                     str(dt.datetime.now() - start))
 
         # Populate dictionary with information to be rendered on e-ink display
-        calDict = {'events': eventList, 'calStartDate': calStartDate, 'today': currDate, 'lastRefresh': currDatetime,
+        calDict = {'events': eventList, 'calStartDate': calStartDate, 'calEndDate': calEndDate, 'today': currDate, 'lastRefresh': currDatetime,
                    'batteryDisplayMode': batteryDisplayMode,
                    'dayOfWeekText': dayOfWeekText, 'weekStartDay': weekStartDay, 'maxEventsPerDay': maxEventsPerDay,
                    'is24hour': is24hour, "current_time": current_time}
@@ -113,7 +113,7 @@ def main():
             displayService.sleep()
 
     except Exception as e:
-        logger.error(e)
+        logger.error(e, exc_info=True)
 
     logger.info("Completed daily calendar update")
 
