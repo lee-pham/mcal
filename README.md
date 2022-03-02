@@ -13,11 +13,12 @@
 
 - [x] year and time font need to be slightly smaller than the calendar day font
 - [x] overflow in red, event in gray
+- [x] long line for multi day events
 - [x] multiday line in red
+- [ ] increase width between columns
 - [ ] noto serif
 - [ ] roboto slab
 - [ ] bitter (font)
-- [ ] long line for multi day events
 - [ ] bullet point is all day event indicator for single day
 
 ### Timeline
