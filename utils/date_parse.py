@@ -41,6 +41,26 @@ def enumerate_multiday_event(event_list: list) -> list:
     return enumerated_event_list
 
 
+def calculate_number_of_days(event_list: list) -> list:
+    for event in event_list:
+        if event["isMultiday"]:
+            days_spanned = event["endDatetime"] + datetime.timedelta(microseconds=1) - event["startDatetime"]
+            days_spanned += 1 if days_spanned.seconds + days_spanned.microseconds > 0 else 0
+            event["days_spanned"] = days_spanned
+
+
+def assign_lanes(event_list: list) -> list:
+    multiday_event_list = [event for event in event_list if event["isMultiday"]]
+    multiday_event_list = sorted(multiday_event_list, key="days_spanned")
+    longest_event = max(event["days_spanned"] for event in event_list)
+    for i in range(longest_event, -1):
+        events = [event for event in event_list if event["days_spanned"] == i]
+        events = sorted(events, key="startDatetime")
+        
+
+
+
+
 def generate_all_day_event_for_today_if_today_falls_between_multiday_event(event_list: list) -> list:
     modified_event_list = []
     today = datetime.datetime.now().date()
