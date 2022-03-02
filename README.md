@@ -4,7 +4,7 @@
 
 ## Bugs
 
-- [ ] if current day of multiday event is between the start and end day, event does not show up on timeline
+- [x] if current day of multiday event is between the start and end day, event does not show up on timeline
 
 ## UI
 
