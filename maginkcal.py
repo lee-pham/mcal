@@ -16,7 +16,7 @@ from pytz import timezone
 
 from gcal.gcal import GcalHelper
 from render.render import RenderHelper
-from utils.date_parse import generate_all_day_event_for_today_if_today_falls_between_multiday_event
+from utils.date_parse import enumerate_multiday_event
 
 
 def main():
@@ -90,7 +90,7 @@ def main():
             calEndDatetime,
             displayTZ,
             thresholdHours)
-        eventList = generate_all_day_event_for_today_if_today_falls_between_multiday_event(eventList)
+        eventList = enumerate_multiday_event(eventList)
         logger.info("Calendar events retrieved in " +
                     str(dt.datetime.now() - start))
 

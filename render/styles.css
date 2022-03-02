@@ -213,44 +213,10 @@ Calendar Styling */
     color: #ddd;
 }
 
-div.batt_container {
-    z-index: 10;
+.multiday {
+    border-top: 1px solid red;
+    margin-bottom: 0;
 }
-
-div.batt_container .battery80 {
-    position: relative;
-    left: 0px;
-    top: 0px;
-}
-
-div.batt_container .battery60 {
-    position: relative;
-    left: 0px;
-    top: -44px;
-}
-
-div.batt_container .battery40 {
-    position: relative;
-    left: 0px;
-    top: -89px;
-}
-
-div.batt_container .battery20 {
-    position: relative;
-    left: 0px;
-    top: -134px;
-}
-
-div.batt_container .battery0 {
-    position: relative;
-    left: 0px;
-    top: -178px;
-}
-
-div.batt_container .batteryHide {
-    display: none;
-}
-
 /*
 *
 * ==========================================

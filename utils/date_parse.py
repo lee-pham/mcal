@@ -1,6 +1,23 @@
 import datetime
 
 
+def enumerate_multiday_event(event_list: list) -> list:
+    enumerated_event_list = []
+    for event in event_list:
+        if event["isMultiday"]:
+            duration = event["endDatetime"] - event["startDatetime"]
+            enumerated_event = {}
+            for date in [event["startDatetime"].date() + datetime.timedelta(i) for i in range(duration.days)]:
+                enumerated_event["summary"] = event["summary"]
+                enumerated_event["startDatetime"] = date
+                enumerated_event["endDatetime"] = date + datetime.timedelta(1)
+                enumerated_event["isMultiday"] = True
+                enumerated_event_list.append(enumerated_event)
+
+        else:
+            enumerated_event_list.append(event)
+
+
 def generate_all_day_event_for_today_if_today_falls_between_multiday_event(event_list: list) -> list:
     modified_event_list = []
     today = datetime.datetime.now().date()
@@ -9,7 +26,7 @@ def generate_all_day_event_for_today_if_today_falls_between_multiday_event(event
             if event["startDatetime"].date() <= today <= event["endDatetime"].date():
                 modified_event = event.copy()
                 modified_event["startDatetime"] = datetime.datetime(today.year, today.month, today.day)
-                modified_event["endDatetime"] = datetime.datetime(today.year, today.month, today.day, 22, 00)
+                modified_event["endDatetime"] = datetime.datetime(today.year, today.month, today.day, 23, 59, 59)
                 modified_event["allday"] = True
                 modified_event_list.append(modified_event)
 
