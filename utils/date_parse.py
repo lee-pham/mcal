@@ -42,14 +42,6 @@ def test_should_return_same_input_if_no_multiday_event():
 
 
 def test_should_return_event_with_start_datetime_of_today():
-    event_list = [
-        {'summary': "Sleepover at Vicky's",
-         'allday': False,
-         'startDatetime': datetime.datetime(today.year - 1, 2, 24, 10, 0),
-         'endDatetime': datetime.datetime(today.year + 1, 3, 1, 10, 30),
-         'isUpdated': False,
-         'isMultiday': True}
-    ]
     assert generate_all_day_event_for_today_if_today_falls_between_multiday_event(multiday_event)[0][
                "startDatetime"] == datetime.datetime(today.year, today.month, today.day)
 

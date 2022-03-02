@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
 This project is designed for the WaveShare 12.48" eInk display. Modifications will be needed for other displays,
 especially the display drivers and how the image is being rendered on the display. Also, this is the first project that
@@ -70,9 +68,6 @@ def main():
         # Note: For Python datetime.weekday() - Monday = 0, Sunday = 6
         # For this implementation, each week starts on a Sunday and the calendar begins on the nearest elapsed Sunday
         # The calendar will also display 5 weeks of events to cover the upcoming month, ending on a Saturday
-        # powerService.sync_time()
-        # currBatteryLevel = powerService.get_battery()
-        # logger.info('Battery level at start: {:.3f}'.format(currBatteryLevel))
 
         currDatetime = dt.datetime.now(displayTZ)
         current_time = currDatetime.strftime("%H:%M")

@@ -116,7 +116,6 @@ class RenderHelper:
         return datetime_str
 
     def process_inputs(self, calDict):
-        # calDict = {'events': eventList, 'calStartDate': calStartDate, 'today': currDate, 'lastRefresh': currDatetime, 'batteryLevel': batteryLevel}
         # first setup list to represent the weeks in our calendar
         calList = []
         weeks_to_display = 4
@@ -136,11 +135,10 @@ class RenderHelper:
                 calDict['calStartDate'], event['startDatetime'].date())
             if idx >= 0:
                 calList[idx].append(event)
-            if event['isMultiday']:
-                idx = self.get_day_in_cal(
-                    calDict['calStartDate'], event['endDatetime'].date())
-                if idx < len(calList):
-                    calList[idx].append(event)
+            # if event['isMultiday']:
+            #     idx = self.get_day_in_cal(calDict['calStartDate'], event['endDatetime'].date())
+            #     if idx < len(calList):
+            #         calList[idx].append(event)
 
         # Read html template
         with open(self.currPath + '/calendar_template.html', 'r') as file:
@@ -167,7 +165,7 @@ class RenderHelper:
                 cal_events_text += '<li><div class="datecircle">' + \
                                    str(dayOfMonth) + '</div>\n'
                 timeline_events = calList[i]
-                calList[i] = {}
+                calList[i] = []
             elif currDate.month != calDict['today'].month:
                 cal_events_text += '<li><div class="date text-muted">' + \
                                    str(dayOfMonth) + '</div>\n'
