@@ -6,16 +6,18 @@ def enumerate_multiday_event(event_list: list) -> list:
     for event in event_list:
         if event["isMultiday"]:
             duration = event["endDatetime"] - event["startDatetime"]
-            enumerated_event = {}
-            for date in [event["startDatetime"].date() + datetime.timedelta(i) for i in range(duration.days)]:
-                enumerated_event["summary"] = event["summary"]
-                enumerated_event["startDatetime"] = date
-                enumerated_event["endDatetime"] = date + datetime.timedelta(1)
-                enumerated_event["isMultiday"] = True
+            for date in [event["startDatetime"] + datetime.timedelta(i) for i in range(duration.days)]:
+                enumerated_event = {
+                    "summary": event["summary"],
+                    "startDatetime": date,
+                    "endDatetime": date + datetime.timedelta(1) - datetime.timedelta(microseconds=1),
+                    "isMultiday": True}
                 enumerated_event_list.append(enumerated_event)
 
         else:
             enumerated_event_list.append(event)
+
+    return enumerated_event_list
 
 
 def generate_all_day_event_for_today_if_today_falls_between_multiday_event(event_list: list) -> list:
