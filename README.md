@@ -5,18 +5,19 @@
 ## Bugs
 
 - [x] if current day of multiday event is between the start and end day, event does not show up on timeline
+- [ ] Fix ordering of multiday events in calendar view
 
 ## UI
 
 ### Calendar
 
 - [x] year and time font need to be slightly smaller than the calendar day font
-- [x] ocerflow in red, event in gray
+- [x] overflow in red, event in gray
+- [x] multiday line in red
 - [ ] noto serif
 - [ ] roboto slab
 - [ ] bitter (font)
 - [ ] long line for multi day events
-- [ ] multiday line in red
 - [ ] bullet point is all day event indicator for single day
 
 ### Timeline
