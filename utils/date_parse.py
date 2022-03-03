@@ -53,10 +53,26 @@ def assign_lanes(event_list: list) -> list:
     multiday_event_list = [event for event in event_list if event["isMultiday"]]
     multiday_event_list = sorted(multiday_event_list, key="days_spanned")
     longest_event = max(event["days_spanned"] for event in event_list)
+    calendar = {}
     for i in range(longest_event, -1):
-        events = [event for event in event_list if event["days_spanned"] == i]
-        events = sorted(events, key="startDatetime")
-        
+        same_length_events = [event for event in event_list if event["days_spanned"] == i]
+        same_length_events = sorted(same_length_events, key="startDatetime")
+        for event in same_length_events:
+            for date in (event["startDatetime"].date + datetime.timedelta(n) for n in range(i)):
+                if date in calendar:
+                    calendar[date] += 1
+                else:
+                    calendar[date] = 0
+
+
+
+
+
+
+
+
+
+
 
 
 
