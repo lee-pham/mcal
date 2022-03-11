@@ -20,6 +20,8 @@
 - [ ] roboto slab
 - [ ] bitter (font)
 - [ ] bullet point is all day event indicator for single day
+- [ ] If four days event, don't show 3 events and a 1more event overflow
+- [ ] If less than four events, display max lines if event name long
 
 ### Timeline
 
