@@ -90,12 +90,12 @@ def main():
             calEndDatetime,
             displayTZ,
             thresholdHours)
-        eventList = enumerate_multiday_event(eventList)
+        enumerated_event_list = enumerate_multiday_event(eventList)
         logger.info("Calendar events retrieved in " +
                     str(dt.datetime.now() - start))
 
         # Populate dictionary with information to be rendered on e-ink display
-        calDict = {'events': eventList, 'calStartDate': calStartDate, 'calEndDate': calEndDate, 'today': currDate, 'lastRefresh': currDatetime,
+        calDict = {'events': enumerated_event_list, 'calStartDate': calStartDate, 'calEndDate': calEndDate, 'today': currDate, 'lastRefresh': currDatetime,
                    'batteryDisplayMode': batteryDisplayMode,
                    'dayOfWeekText': dayOfWeekText, 'weekStartDay': weekStartDay, 'maxEventsPerDay': maxEventsPerDay,
                    'is24hour': is24hour, "current_time": current_time}
