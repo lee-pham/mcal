@@ -1,4 +1,5 @@
 import datetime
+import pytz
 
 
 def enumerate_multiday_event(event_list: list) -> list:
@@ -6,7 +7,11 @@ def enumerate_multiday_event(event_list: list) -> list:
     for event in event_list:
         if event["isMultiday"]:
             if event["startDatetime"].tzinfo._tzname != event["endDatetime"].tzinfo._tzname:
-                event["endDatetime"] += datetime.timedelta(hours=1)
+                if event["endDatetime"].tzinfo._tzname == "CDT":
+                    event["endDatetime"] += datetime.timedelta(hours=1)
+                else:
+                    event["endDatetime"] -= datetime.timedelta(hours=1)
+
             duration = event["endDatetime"] + datetime.timedelta(microseconds=1) - event["startDatetime"]
             print("@@@@@", event["summary"], duration)
             enumerated_event = {
@@ -46,3 +51,24 @@ def enumerate_multiday_event(event_list: list) -> list:
             enumerated_event_list.append(event)
 
     return enumerated_event_list
+
+
+def test_account_for_dst_begin():
+    # event_ends_after_dst = [
+    #     {'summary': 'Ab', 'allday': True, 'startDatetime': datetime.datetime(2022, 3, 12, 0, 0, tzinfo= < DstTzInfo
+    #      'America/Chicago' CST - 1 day, 18:00: 00
+    # STD >), 'endDatetime': datetime.datetime(2022, 3, 13, 23, 59, 59, 999999, tzinfo= < DstTzInfo
+    # 'America/Chicago'
+    # CDT - 1
+    # day, 19: 00:00
+    # DST >), 'updatedDatetime': datetime.datetime(2022, 3, 10, 23, 6, 14, 575000, tzinfo= < DstTzInfo
+    # 'America/Chicago'
+    # CST - 1
+    # day, 18: 00:00
+    # STD >), 'isUpdated': False, 'isMultiday': True}
+    # ]
+    pass
+
+
+def test_account_for_dst_end():
+    pass
