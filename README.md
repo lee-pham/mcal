@@ -15,6 +15,7 @@
 - [x] overflow in red, event in gray
 - [x] long line for multi day events
 - [x] multiday line in red
+- [x] show event label again on new week start for continuity
 - [ ] increase width between columns
 - [ ] noto serif
 - [ ] roboto slab

@@ -90,6 +90,12 @@ class RenderHelper:
         delta = eventDate - startDate
         return delta.days
 
+    def relabel_event_on_new_week(self, calendar_list: list) -> None:
+        for i in range(0, len(calendar_list), 7):
+            for event in calendar_list[i]:
+                if event["isMultiday"]:
+                    event["hide"] = False
+
     def get_short_time(self, datetimeObj, is24hour=False):
         datetime_str = ''
         if is24hour:
@@ -157,6 +163,7 @@ class RenderHelper:
 
         # Populate the date and events
         cal_events_text = ''
+        self.relabel_event_on_new_week(calList)
         for i in range(len(calList)):
             currDate = calDict['calStartDate'] + timedelta(days=i)
             dayOfMonth = currDate.day
@@ -180,7 +187,7 @@ class RenderHelper:
                 cal_events_text += '<div class="event'
                 if event['isUpdated']:
                     cal_events_text += ' text-danger'
-                if "hide" in event:
+                if event.get("hide"):
                     cal_events_text += ' text-hidden'
                 elif currDate.month != calDict['today'].month:
                     cal_events_text += ' text-muted'
