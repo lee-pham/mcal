@@ -10,7 +10,7 @@ class BlockList:
         for idx in range(len(self.block_list)):
             if self.block_list[idx] is None:
                 self.block_list[idx] = e
-        return self.block_list
+                return self.block_list
 
     def to_list(self):
         return self.block_list
@@ -23,9 +23,9 @@ class TestBlockList:
     def test_fill_empty_block_list(self):
         bl = BlockList(3)
         bl.fill(1)
-        bl.fill(1)
-        bl.fill(1)
-        assert bl.to_list() == [1, 1, 1]
+        bl.fill(2)
+        bl.fill(3)
+        assert bl.to_list() == [1, 2, 3]
 
     def test_hold_index_and_fill(self):
         bl = BlockList(3)
