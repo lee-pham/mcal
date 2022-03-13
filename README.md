@@ -16,6 +16,7 @@
 - [x] long line for multi day events
 - [x] multiday line in red
 - [x] show event label again on new week start for continuity
+- [x] Properly stack events if multiday
 - [ ] increase width between columns
 - [ ] noto serif
 - [ ] roboto slab
