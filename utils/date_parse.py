@@ -1,5 +1,4 @@
 import datetime
-import pytz
 
 
 def enumerate_multiday_event(event_list: list) -> list:
@@ -20,7 +19,9 @@ def enumerate_multiday_event(event_list: list) -> list:
                 "endDatetime": event["startDatetime"] + datetime.timedelta(1) - datetime.timedelta(microseconds=1),
                 "isMultiday": True,
                 "isUpdated": event["isUpdated"],
-                "allday": event["allday"]
+                "allday": event["allday"],
+                "duration": duration,
+                "main": True
             }
             enumerated_event_list.append(enumerated_event)
             for date in [event["startDatetime"] + datetime.timedelta(i) for i in range(1, duration.days)]:
@@ -31,7 +32,8 @@ def enumerate_multiday_event(event_list: list) -> list:
                     "isMultiday": True,
                     "isUpdated": event["isUpdated"],
                     "allday": event["allday"],
-                    "hide": True
+                    "hide": True,
+                    "duration": duration
                 }
                 last_date = date
                 enumerated_event_list.append(enumerated_event)
@@ -44,10 +46,12 @@ def enumerate_multiday_event(event_list: list) -> list:
                     "isMultiday": True,
                     "isUpdated": event["isUpdated"],
                     "allday": event["allday"],
-                    "hide": True
+                    "hide": True,
+                    "duration": duration
                 }
                 enumerated_event_list.append(enumerated_event)
         else:
+            event["duration"] = datetime.timedelta(0)
             enumerated_event_list.append(event)
 
     return enumerated_event_list

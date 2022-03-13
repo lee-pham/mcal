@@ -91,6 +91,7 @@ def main():
             displayTZ,
             thresholdHours)
         enumerated_event_list = enumerate_multiday_event(eventList)
+        # enumerated_event_list = eventList
         logger.info("Calendar events retrieved in " +
                     str(dt.datetime.now() - start))
 

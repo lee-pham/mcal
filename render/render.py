@@ -17,6 +17,8 @@ from PIL import Image
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from render.timeline import Timeline
+from operator import itemgetter
+from utils.block_list import BlockList
 
 
 class RenderHelper:
@@ -183,7 +185,27 @@ class RenderHelper:
                                    str(dayOfMonth) + '</div>\n'
 
             for j in range(min(len(calList[i]), maxEventsPerDay)):
+
+                calList[i] = sorted(calList[i], key=itemgetter("summary"))
+                calList[i] = sorted(calList[i], key=itemgetter("startDatetime"))
+                calList[i] = sorted(calList[i], key=itemgetter("allday", "duration"), reverse=True)
+
+                bl = BlockList(len(calList[i]))
+                event_summaries = [e["summary"] for e in calList[i - 1]]
+                for idx, event in enumerate(calList[i]):
+                    if event["summary"] in event_summaries and event["isMultiday"]:
+                        lane = event_summaries.index(event["summary"])
+                        bl.hold_index(lane, event)
+                        calList[i].pop(idx)
+
+                for e in calList[i]:
+                    bl.fill(e)
+
+                calList[i] = bl.to_list()
+
                 event = calList[i][j]
+
+
                 cal_events_text += '<div class="event'
                 if event['isUpdated']:
                     cal_events_text += ' text-danger'
