@@ -217,9 +217,9 @@ class RenderHelper:
                     if event['startDatetime'].date() == currDate:
                         cal_events_text += f'" style="border-top:1px solid red;">{event["summary"]}'
                 elif event['allday']:
-                    cal_events_text += '">' + event['summary']
+                    cal_events_text += f"""">•{event['summary']}"""
                 else:
-                    cal_events_text += f""""> {event['summary']}"""
+                    cal_events_text += f"""">{event['summary']}"""
                 cal_events_text += '</div>\n'
             if len(calList[i]) > maxEventsPerDay:
                 cal_events_text += '<div class="event" style="color:red;">' + str(
