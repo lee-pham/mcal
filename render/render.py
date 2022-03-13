@@ -215,10 +215,7 @@ class RenderHelper:
                     cal_events_text += ' text-muted'
                 if event['isMultiday']:
                     if event['startDatetime'].date() == currDate:
-                        cal_events_text += f'"><p class="multiday">{event["summary"]}</p>'
-                    else:
-                        # calHtmlList.append(' text-multiday">')
-                        cal_events_text += '">◄' + event['summary']
+                        cal_events_text += f'" style="border-top:1px solid red;">{event["summary"]}'
                 elif event['allday']:
                     cal_events_text += '">' + event['summary']
                 else:

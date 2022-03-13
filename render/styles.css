@@ -187,6 +187,7 @@ Calendar Styling */
     border-radius: 0rem;
     margin-bottom: 1px;
     color: #6c757d;
+    border-top: 1px solid white;
 }
 
 .calendar .days li .event.span-2 {
@@ -217,10 +218,10 @@ Calendar Styling */
     color: #ddd;
 }
 
-.multiday {
-    border-top: 1px solid red;
-    margin-bottom: 0;
-}
+/*.css-who {*/
+/*    border-top: 1px solid white;*/
+/*    margin-bottom: 0;*/
+/*}*/
 /*
 *
 * ==========================================
