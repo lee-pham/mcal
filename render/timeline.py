@@ -5,7 +5,7 @@ from adjustText import adjust_text
 
 # Constants
 GRAY = "#6c757d"
-TIMELINE_WIDTH = .75
+TIMELINE_WIDTH = 1
 RED_TICK_SIZE = 15
 USE_TIMELINE_WORDS = False  # Set to True if you want the number of days remaining to be displayed for multiday events
 
@@ -69,7 +69,7 @@ class Timeline:
     def render(self):
         # Create figure and plot a stem plot with the date
         # fig, ax = plt.subplots(figsize=(8.8, 4), constrained_layout=True)
-        fig, ax = plt.subplots(figsize=(8.8, 4), constrained_layout=False)
+        fig, ax = plt.subplots(figsize=(7.48, 3), constrained_layout=False, dpi=103)
 
         # Black line for the entire timeline
         ax.plot([0, 24 * 60], [0, 0], "-", color="k", linewidth=TIMELINE_WIDTH)
