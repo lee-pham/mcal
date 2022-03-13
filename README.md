@@ -5,7 +5,8 @@
 ## Bugs
 
 - [x] if current day of multiday event is between the start and end day, event does not show up on timeline
-- [ ] Fix ordering of multiday events in calendar view
+- [x] Fix ordering of multiday events in calendar view
+- [x] If four events in a day, don't show 3 events and a 1more event overflow, display all 4 instead
 
 ## UI
 
@@ -16,13 +17,11 @@
 - [x] long line for multi day events
 - [x] multiday line in red
 - [x] show event label again on new week start for continuity
-- [x] Properly stack events if multiday
+- [x] bullet point is all day event indicator for single day
 - [ ] increase width between columns
 - [ ] noto serif
 - [ ] roboto slab
 - [ ] bitter (font)
-- [ ] bullet point is all day event indicator for single day
-- [ ] If four days event, don't show 3 events and a 1more event overflow
 - [ ] If less than four events, display max lines if event name long
 
 ### Timeline

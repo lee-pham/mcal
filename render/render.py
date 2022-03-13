@@ -205,7 +205,6 @@ class RenderHelper:
 
                 event = calList[i][j]
 
-
                 cal_events_text += '<div class="event'
                 if event['isUpdated']:
                     cal_events_text += ' text-danger'
@@ -221,7 +220,10 @@ class RenderHelper:
                 else:
                     cal_events_text += f"""">{event['summary']}"""
                 cal_events_text += '</div>\n'
-            if len(calList[i]) > maxEventsPerDay:
+
+            if len(calList[i]) == maxEventsPerDay + 1:
+                cal_events_text += f"""<div class="event">{calList[i][-1]['summary']}</div>\n"""
+            elif len(calList[i]) > maxEventsPerDay + 1:
                 cal_events_text += '<div class="event" style="color:red;">' + str(
                     len(calList[i]) - maxEventsPerDay) + ' more'
 
