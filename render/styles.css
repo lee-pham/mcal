@@ -185,7 +185,6 @@ Calendar Styling */
     overflow: hidden;
     text-overflow: clip;
     border-radius: 0rem;
-    margin-bottom: 1px;
     color: #6c757d;
     border-top: 1px solid white;
 }
