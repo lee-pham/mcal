@@ -8,7 +8,8 @@
 - [x] Fix ordering of multiday events in calendar view
 - [x] If four events in a day, don't show 3 events and a 1more event overflow, display all 4 instead
 - [ ] If multiday event is on maxevents + 1 of previous, the current event gets displayed on the maxevent + 1 line
-
+- [ ] If multiday event spans across weeks, it takes the lane of the previous week, which isn't consistent with how gcal
+  handles it
 ## UI
 
 ### Calendar

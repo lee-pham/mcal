@@ -74,11 +74,14 @@ def main():
         current_time = currDatetime.strftime("%H:%M")
         logger.info("Time synchronised to {}".format(currDatetime))
         currDate = currDatetime.date()
-        calStartDate = currDate - \
-                       dt.timedelta(days=((currDate.weekday() + (7 - weekStartDay)) % 7))
+        current_month_date = dt.datetime(currDate.year, currDate.month, 1).date()
+        calStartDate = current_month_date - dt.timedelta(days=((current_month_date.weekday() + (7 - weekStartDay)) % 7))
         calEndDate = calStartDate + dt.timedelta(days=(weeks_to_display * 7 - 1))
-        calStartDate = dt.datetime(2022, 3, 27).date()
-        calEndDate = dt.datetime(2022, 4, 30).date()
+
+        # Dates used for testing ##########################
+        # calStartDate = dt.datetime(2022, 3, 27).date()  #
+        # calEndDate = dt.datetime(2022, 4, 30).date()    #
+        ###################################################
         calStartDatetime = displayTZ.localize(
             dt.datetime.combine(calStartDate, dt.datetime.min.time()))
         calEndDatetime = displayTZ.localize(
@@ -99,7 +102,8 @@ def main():
                     str(dt.datetime.now() - start))
 
         # Populate dictionary with information to be rendered on e-ink display
-        calDict = {'events': enumerated_event_list, 'calStartDate': calStartDate, 'calEndDate': calEndDate, 'today': currDate, 'lastRefresh': currDatetime,
+        calDict = {'events': enumerated_event_list, 'calStartDate': calStartDate, 'calEndDate': calEndDate,
+                   'today': currDate, 'lastRefresh': currDatetime,
                    'batteryDisplayMode': batteryDisplayMode,
                    'dayOfWeekText': dayOfWeekText, 'weekStartDay': weekStartDay, 'maxEventsPerDay': maxEventsPerDay,
                    'is24hour': is24hour, "current_time": current_time, "weeks_to_display": weeks_to_display}

@@ -9,18 +9,20 @@ calendar and refreshing of the eInk display. In the future, I might choose to ge
 RPi device, while using a ESP32 or PiZero purely to just retrieve the image from a file host and update the screen.
 """
 
+import datetime
 import logging
 import pathlib
 from datetime import timedelta
+from operator import itemgetter
 from time import sleep
+
+import pytz
 from PIL import Image
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+
 from render.timeline import Timeline
-from operator import itemgetter
 from utils.block_list import BlockList
-import datetime
-import pytz
 
 
 class RenderHelper:
@@ -239,14 +241,13 @@ class RenderHelper:
                 cal_events_text += f"""<div class="event">{calList[i][-1]['summary']}</div>\n"""
             elif len(calList[i]) > maxEventsPerDay + 1:
                 cal_events_text += '<div class="event" style="color:red;">' + str(
-                    len(calList[i]) - maxEventsPerDay) + ' more'
+                    len(calList[i]) - maxEventsPerDay) + ' more</div>\n'
 
             cal_events_text += '</li>\n'
 
         # Append the bottom and write the file
         print(calList)
         # print(timeline_events)
-        timeline_events = []
         Timeline(timeline_events).render()
         htmlFile = open(self.currPath + '/calendar.html', "w")
         htmlFile.write(calendar_template.format(month=month_name, dayOfWeek=cal_days_of_week,
