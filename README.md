@@ -7,6 +7,7 @@
 - [x] if current day of multiday event is between the start and end day, event does not show up on timeline
 - [x] Fix ordering of multiday events in calendar view
 - [x] If four events in a day, don't show 3 events and a 1more event overflow, display all 4 instead
+- [ ] If multiday event is on maxevents + 1 of previous, the current event gets displayed on the maxevent + 1 line
 
 ## UI
 
