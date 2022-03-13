@@ -53,6 +53,7 @@ def main():
     rotateAngle = config['rotateAngle']
     calendars = config['calendars']  # Google calendar ids
     is24hour = config['is24h']  # set 24 hour time
+    weeks_to_display = config["weeks_to_display"]  # num of weeks to display after the previous sunday of the month
 
     # Create and configure logger
     logging.basicConfig(filename="logfile.log",
@@ -75,7 +76,9 @@ def main():
         currDate = currDatetime.date()
         calStartDate = currDate - \
                        dt.timedelta(days=((currDate.weekday() + (7 - weekStartDay)) % 7))
-        calEndDate = calStartDate + dt.timedelta(days=(4 * 7 - 1))
+        calEndDate = calStartDate + dt.timedelta(days=(weeks_to_display * 7 - 1))
+        calStartDate = dt.datetime(2022, 3, 27).date()
+        calEndDate = dt.datetime(2022, 4, 30).date()
         calStartDatetime = displayTZ.localize(
             dt.datetime.combine(calStartDate, dt.datetime.min.time()))
         calEndDatetime = displayTZ.localize(
@@ -99,7 +102,7 @@ def main():
         calDict = {'events': enumerated_event_list, 'calStartDate': calStartDate, 'calEndDate': calEndDate, 'today': currDate, 'lastRefresh': currDatetime,
                    'batteryDisplayMode': batteryDisplayMode,
                    'dayOfWeekText': dayOfWeekText, 'weekStartDay': weekStartDay, 'maxEventsPerDay': maxEventsPerDay,
-                   'is24hour': is24hour, "current_time": current_time}
+                   'is24hour': is24hour, "current_time": current_time, "weeks_to_display": weeks_to_display}
         renderService = RenderHelper(imageWidth, imageHeight, rotateAngle)
         calBlackImage, calRedImage = renderService.process_inputs(calDict)
 

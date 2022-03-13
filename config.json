@@ -2,6 +2,7 @@
   "displayTZ": "America/Chicago",
   "thresholdHours": 0,
   "maxEventsPerDay": 3,
+  "weeks_to_display": 5,
   "isDisplayToScreen": false,
   "isShutdownOnComplete": false,
   "batteryDisplayMode": 1,
@@ -15,10 +16,10 @@
     "S",
     "S"
   ],
-  "screenWidth": 800,
-  "screenHeight": 480,
-  "imageWidth": 480,
-  "imageHeight": 800,
+  "screenWidth": 960,
+  "screenHeight": 768,
+  "imageHeight": 960,
+  "imageWidth": 768,
   "rotateAngle": 270,
   "is24h": true,
   "calendars": [

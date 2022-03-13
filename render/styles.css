@@ -47,6 +47,11 @@
     color: #ffffff !important;
 }
 
+.hide-all {
+    color: #ffffff !important;
+    border-top: 1px solid white !important;
+}
+
 dl, ol, ul {
     margin-top: 0;
     margin-bottom: 0rem;

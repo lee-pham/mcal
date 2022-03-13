@@ -32,7 +32,7 @@ def enumerate_multiday_event(event_list: list) -> list:
                     "isMultiday": True,
                     "isUpdated": event["isUpdated"],
                     "allday": event["allday"],
-                    "hide": True,
+                    "hide": "text",
                     "duration": duration
                 }
                 last_date = date
@@ -46,7 +46,7 @@ def enumerate_multiday_event(event_list: list) -> list:
                     "isMultiday": True,
                     "isUpdated": event["isUpdated"],
                     "allday": event["allday"],
-                    "hide": True,
+                    "hide": "text",
                     "duration": duration
                 }
                 enumerated_event_list.append(enumerated_event)

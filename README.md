@@ -18,6 +18,10 @@
 - [x] multiday line in red
 - [x] show event label again on new week start for continuity
 - [x] bullet point is all day event indicator for single day
+- [ ] fix year and time margins
+- [ ] match weekday font size to calendary number days font size
+- [ ] gap between multiday events that end and start consecutively 
+- [ ] bullet point to be red
 - [ ] increase width between columns
 - [ ] noto serif
 - [ ] roboto slab
