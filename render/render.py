@@ -9,15 +9,19 @@ calendar and refreshing of the eInk display. In the future, I might choose to ge
 RPi device, while using a ESP32 or PiZero purely to just retrieve the image from a file host and update the screen.
 """
 
+import datetime
 import logging
 import pathlib
 from datetime import timedelta
+from operator import itemgetter
 from time import sleep
+
+import pytz
 from PIL import Image
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+
 from render.timeline import Timeline
-from operator import itemgetter
 from utils.block_list import BlockList
 
 
@@ -120,18 +124,18 @@ class RenderHelper:
         return datetime_str
 
     def process_inputs(self, calDict):
-        # first setup list to represent the weeks in our calendar
-        calList = []
-        weeks_to_display = 4
-        for i in range(weeks_to_display * 7):
-            calList.append([])
-
         # retrieve calendar configuration
         maxEventsPerDay = calDict['maxEventsPerDay']
         dayOfWeekText = calDict['dayOfWeekText']
         weekStartDay = calDict['weekStartDay']
         is24hour = calDict['is24hour']
         current_time = calDict["current_time"]
+
+        # first setup list to represent the weeks in our calendar
+        calList = []
+        weeks_to_display = calDict['weeks_to_display']
+        for i in range(weeks_to_display * 7):
+            calList.append([])
 
         # for each item in the eventList, add them to the relevant day in our calendar list
         for event in calDict['events']:
@@ -184,35 +188,47 @@ class RenderHelper:
                 cal_events_text += '<li><div class="date">' + \
                                    str(dayOfMonth) + '</div>\n'
 
+            calList[i] = sorted(calList[i], key=itemgetter("summary"))
+            calList[i] = sorted(calList[i], key=itemgetter("startDatetime"))
+            calList[i] = sorted(calList[i], key=itemgetter("allday", "duration"), reverse=True)
+
+            # BAD CODE I KNOW, I'm using some arbitrary large value to guaranty
+            # that the block list doesn't go out of range
+            bl = BlockList(len(calList[i]) * 100, {
+                "summary": "spacer",
+                "startDatetime": datetime.datetime.now().astimezone(pytz.utc),
+                "allday": False,
+                "duration": None,
+                "hide": "all",
+                "spacer": True
+            })
+            # BAD CODE
+
+            previous_event_summaries = [e["summary"] for e in calList[i - 1]]
+            for idx, event in enumerate(calList[i]):
+                if event.get("isMultiday") and event["summary"] in previous_event_summaries:
+                    lane = previous_event_summaries.index(event["summary"])
+                    bl.hold_index(lane, event)
+                    calList[i][idx] = None
+
+            for e in [e for e in calList[i] if e is not None]:
+                bl.fill(e)
+
+            calList[i] = bl.to_list()
+
             for j in range(min(len(calList[i]), maxEventsPerDay)):
-
-                calList[i] = sorted(calList[i], key=itemgetter("summary"))
-                calList[i] = sorted(calList[i], key=itemgetter("startDatetime"))
-                calList[i] = sorted(calList[i], key=itemgetter("allday", "duration"), reverse=True)
-
-                bl = BlockList(len(calList[i]))
-                event_summaries = [e["summary"] for e in calList[i - 1]]
-                for idx, event in enumerate(calList[i]):
-                    if event["summary"] in event_summaries and event["isMultiday"]:
-                        lane = event_summaries.index(event["summary"])
-                        bl.hold_index(lane, event)
-                        calList[i].pop(idx)
-
-                for e in calList[i]:
-                    bl.fill(e)
-
-                calList[i] = bl.to_list()
 
                 event = calList[i][j]
 
                 cal_events_text += '<div class="event'
-                if event['isUpdated']:
-                    cal_events_text += ' text-danger'
-                if event.get("hide"):
-                    cal_events_text += ' text-hidden'
+                if "hide" in event:
+                    if event["hide"] == "all":
+                        cal_events_text += ' hide-all'
+                    elif event["hide"] == "text":
+                        cal_events_text += ' text-hidden'
                 elif currDate.month != calDict['today'].month:
                     cal_events_text += ' text-muted'
-                if event['isMultiday']:
+                if event.get('isMultiday') and not event.get("spacer"):
                     if event['startDatetime'].date() == currDate:
                         cal_events_text += f'" style="border-top:1px solid red;">{event["summary"]}'
                 elif event['allday']:
@@ -225,7 +241,7 @@ class RenderHelper:
                 cal_events_text += f"""<div class="event">{calList[i][-1]['summary']}</div>\n"""
             elif len(calList[i]) > maxEventsPerDay + 1:
                 cal_events_text += '<div class="event" style="color:red;">' + str(
-                    len(calList[i]) - maxEventsPerDay) + ' more'
+                    len(calList[i]) - maxEventsPerDay) + ' more</div>\n'
 
             cal_events_text += '</li>\n'
 
