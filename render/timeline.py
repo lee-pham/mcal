@@ -103,7 +103,7 @@ class Timeline:
             texts.append(
                 ax.text(s=summary_with_time,
                         x=military_to_minutes(event["startDatetime"].strftime("%H:%M")), y=is_complete(event)["xy"],
-                        color=is_complete(event)["color"], style=text_style)
+                        color=is_complete(event)["color"], style=text_style, size=12)
             )
 
         # remove x, y axis and spines

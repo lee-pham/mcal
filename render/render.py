@@ -57,6 +57,8 @@ class RenderHelper:
     def get_screenshot(self):
         opts = Options()
         opts.add_argument("--headless")
+        opts.add_argument("--no-sandbox")
+        opts.add_argument('--disable-dev-shm-usage')
         opts.add_argument("--hide-scrollbars")
         opts.add_argument('--force-device-scale-factor=1')
         driver = webdriver.Chrome(options=opts)

@@ -11,7 +11,7 @@ import json
 import logging
 import platform
 import sys
-
+import time
 from pytz import timezone
 
 from gcal.gcal import GcalHelper
@@ -75,9 +75,10 @@ def main():
         logger.info("Time synchronised to {}".format(currDatetime))
         currDate = currDatetime.date()
         current_month_date = dt.datetime(currDate.year, currDate.month, 1).date()
-        calStartDate = current_month_date - dt.timedelta(days=((current_month_date.weekday() + (7 - weekStartDay)) % 7))
+        # Commented out for use with small display since only 4 weeks can be displayed
+        # calStartDate = current_month_date - dt.timedelta(days=((current_month_date.weekday() + (7 - weekStartDay)) % 7))
+        calStartDate = currDate - dt.timedelta(days=((currDate.weekday() + (7 - weekStartDay)) % 7))
         calEndDate = calStartDate + dt.timedelta(days=(weeks_to_display * 7 - 1))
-
         # Dates used for testing ##########################
         # calStartDate = dt.datetime(2022, 3, 27).date()  #
         # calEndDate = dt.datetime(2022, 4, 30).date()    #
@@ -126,5 +127,8 @@ def main():
     logger.info("Completed daily calendar update")
 
 
-if __name__ == "__main__":
-    main()
+start_time = time.time()
+while True:
+    if __name__ == "__main__":
+        main()
+        time.sleep(60.0 - ((time.time() - start_time) % 60.0))
