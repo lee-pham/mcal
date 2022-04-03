@@ -1,51 +1,13 @@
 # Magic Calendar
 
-# TODO:
-
-## Bugs
-
-- [x] if current day of multiday event is between the start and end day, event does not show up on timeline
-- [x] Fix ordering of multiday events in calendar view
-- [x] If four events in a day, don't show 3 events and a 1more event overflow, display all 4 instead
-- [ ] If multiday event is on maxevents + 1 of previous, the current event gets displayed on the maxevent + 1 line
-- [ ] If multiday event spans across weeks, it takes the lane of the previous week, which isn't consistent with how gcal
-  handles it
-## UI
-
-### Calendar
-
-- [x] year and time font need to be slightly smaller than the calendar day font
-- [x] overflow in red, event in gray
-- [x] long line for multi day events
-- [x] multiday line in red
-- [x] show event label again on new week start for continuity
-- [x] bullet point is all day event indicator for single day
-- [ ] fix year and time margins
-- [ ] match weekday font size to calendary number days font size
-- [ ] gap between multiday events that end and start consecutively 
-- [ ] bullet point to be red
-- [ ] increase width between columns
-- [ ] noto serif
-- [ ] roboto slab
-- [ ] bitter (font)
-- [ ] If less than four events, display max lines if event name long
-
-### Timeline
-
-- [x] thinner line for timeline line
-- [x] filled black circle while event is going on
-- [x] all day event as 00:00 event
-- [x] all day multi day italics surrounded by bullet
-- [x] all day single day is italics no bullet
-- [ ] text start aligns with dot
-- [ ] fix overlapping as it's not perfected yet
+![Magic Calendar](mcal.png)
 
 ## Hardware Required
 
-- [Raspberry Pi Zero WH](https://www.raspberrypi.org/blog/zero-wh/) - Header pins are needed to connect to the E-Ink
+- [Raspberry Pi](https://www.raspberrypi.org) - Header pins are needed to connect to the E-Ink
   display
 - [Waveshare 12.48" Tri-color E-Ink Display](https://www.waveshare.com/product/12.48inch-e-paper-module-b.htm) -
-  Unfortunately out of stock at the time this is published
+  Unfortunately out of stock at the time this is published, so I adapted the code to work with the [7.5" Display](https://www.waveshare.com/7.5inch-e-paper-hat-b.htm)
 
 ## Some features of the calendar:
 
@@ -55,6 +17,7 @@
   show 3 events per day and an indicator (e.g. 4 more) for those not displayed
 - The calendar always starts from the current week, and displays the next four (total 35 days). If the dates cross over
   to the new month, it's displayed in grey instead of black.
+- Timeline added to the bottom to closely honor the [original concept](https://www.youtube.com/watch?v=2KDkFgOHZ5I)
 
 ![MagInkCal Basics](https://user-images.githubusercontent.com/5581989/134775456-d6bacaca-03c7-4357-af28-7c06aa19ed90.png)
 
@@ -73,16 +36,16 @@ sudo raspi-config
 3. Run the following commands in the RPi Terminal to setup the environment to run the Python scripts.
 
 ```shell
-sudo apt install chromium????
+sudo apt install chromium
 ```
 
-6. Download the over the files in this repo to a folder in your PC first.
+4. Download the over the files in this repo to a folder in your PC first.
 
-7. In order for you to access your Google Calendar events, it's necessary to first grant the access. Follow
+5. In order for you to access your Google Calendar events, it's necessary to first grant the access. Follow
    the [instructions here](https://developers.google.com/calendar/api/quickstart/python) on your PC to get the
    credentials.json file from your Google API. Don't worry, take your time. I'll be waiting here.
 
-8. Once done, copy the credentials.json file to the "gcal" folder in this project. Run the following command on your PC.
+6. Once done, copy the credentials.json file to the "gcal" folder in this project. Run the following command on your PC.
    A web browser should appear, asking you to grant access to your calendar. Once done, you should see a "token.pickle"
    file in your "gcal" folder.
 
@@ -90,23 +53,27 @@ sudo apt install chromium????
 python3 quickstart.py
 ```
 
-9. Copy all the files over to your RPi using your preferred means.
+7. Copy all the files over to your RPi using your preferred means.
 
-10. Run the following command in the RPi Terminal to open crontab.
+9. In the repository, run
+```bash
+pip install -r requirements.txt
+```
+
+9. Run the following command in the RPi Terminal to open crontab.
 
 ```bash
 crontab -e
 ```
 
-11. Specifically, add the following command to crontab so that the MagInkCal Python script runs each time the RPi is
+10. Specifically, add the following command to crontab so that the MagInkCal Python script runs each time the RPi is
     booted up.
 
 ```bash
 @reboot cd /location/to/your/maginkcal && python3 maginkcal.py
 ```
 
-12. That's all! Your Magic Calendar should now be refreshed at the time interval that you specified in the PiSugar2 web
-    interface!
+11. That's it!
 
 PS: I'm aware that the instructions above may not be complete, especially when it comes to the Python libraries to be
 installed, so feel free to ping me if you noticed anything missing and I'll add it to the steps above.
