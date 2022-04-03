@@ -19,7 +19,6 @@
   to the new month, it's displayed in grey instead of black.
 - Timeline added to the bottom to closely honor the [original concept](https://www.youtube.com/watch?v=2KDkFgOHZ5I)
 
-![MagInkCal Basics](https://user-images.githubusercontent.com/5581989/134775456-d6bacaca-03c7-4357-af28-7c06aa19ed90.png)
 
 ## Setting Up Raspberry Pi Zero
 
