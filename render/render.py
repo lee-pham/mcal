@@ -60,6 +60,7 @@ class RenderHelper:
         opts.add_argument("--no-sandbox")
         opts.add_argument('--disable-dev-shm-usage')
         opts.add_argument("--hide-scrollbars")
+        opts.add_argument("--disable-gpu")
         opts.add_argument('--force-device-scale-factor=1')
         driver = webdriver.Chrome(options=opts)
         self.set_viewport_size(driver)

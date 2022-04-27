@@ -127,8 +127,11 @@ def main():
     logger.info("Completed daily calendar update")
 
 
-start_time = time.time()
-while True:
-    if __name__ == "__main__":
-        main()
-        time.sleep(60.0 - ((time.time() - start_time) % 60.0))
+if __name__ == "__main__":
+    main()
+
+# start_time = time.time()
+# while True:
+#     if __name__ == "__main__":
+#         main()
+#         time.sleep(60.0 - ((time.time() - start_time) % 60.0))
