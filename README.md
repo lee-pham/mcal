@@ -20,15 +20,15 @@
 - Timeline added to the bottom to closely honor the [original concept](https://www.youtube.com/watch?v=2KDkFgOHZ5I)
 
 
-## Setting Up Raspberry Pi Zero
+## Setting up the calendar
 
 1. Start by flashing [Raspberrypi OS Lite](https://www.raspberrypi.org/software/operating-systems/) to a MicroSD Card.
 
-2. After setting up the OS, run the following commmand in the RPi Terminal, and use
+2. After setting up the OS, run the following command in the RPi Terminal, and use
    the [raspi-config](https://www.raspberrypi.org/documentation/computers/configuration.html) interface to setup Wifi
    connection, enable SSH, I2C, SPI, and set the timezone to your location.
 
-```bash
+```shell
 sudo raspi-config
 ```
 
@@ -38,38 +38,40 @@ sudo raspi-config
 sudo apt install chromium
 ```
 
-4. Download the over the files in this repo to a folder in your PC first.
-
-5. In order for you to access your Google Calendar events, it's necessary to first grant the access. Follow
-   the [instructions here](https://developers.google.com/calendar/api/quickstart/python) on your PC to get the
-   credentials.json file from your Google API. Don't worry, take your time. I'll be waiting here.
-
-6. Once done, copy the credentials.json file to the "gcal" folder in this project. Run the following command on your PC.
-   A web browser should appear, asking you to grant access to your calendar. Once done, you should see a "token.pickle"
-   file in your "gcal" folder.
-
-```bash
-python3 quickstart.py
-```
-
-7. Copy all the files over to your RPi using your preferred means.
-
-9. In the repository, run
-```bash
+4. Clone the repo and create and activate a virtual environment and install dependencies
+```shell
+cd mcal/
+python -m venv venv
+source venv/bin/activate
 pip install -r requirements.txt
 ```
 
+5. Download the files in this repo locally to your computer (not the pi).
+
+6. In order for you to access your Google Calendar events, it's necessary to first grant the access. Follow
+   the [instructions here](https://developers.google.com/calendar/api/quickstart/python) on your PC to get the
+   credentials.json file from your Google API. Don't worry, take your time. I'll be waiting here.
+
+7. Once done, copy the credentials.json file to the "gcal" folder in this project. Run the following command on your PC.
+   A web browser should appear, asking you to grant access to your calendar. Once done, you should see a "token.pickle"
+   file in your "gcal" folder.
+
+```shell
+python3 quickstart.py
+```
+
+8. Copy all the files over to your RPi using your preferred means.
+
 9. Run the following command in the RPi Terminal to open crontab.
 
-```bash
+```shell
 crontab -e
 ```
 
-10. Specifically, add the following command to crontab so that the MagInkCal Python script runs each time the RPi is
-    booted up.
+10. Specifically, add the following command to crontab so that the MagInkCal Python script runs every 5 minutes.
 
-```bash
-@reboot cd /location/to/your/maginkcal && python3 maginkcal.py
+```shell
+*/5 * * * * cd /home/pi/mcal/ && /home/pi/mcal/venv/bin/python /home/pi/mcal/maginkcal.py
 ```
 
 11. That's it!
