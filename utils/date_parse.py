@@ -24,6 +24,8 @@ def enumerate_multiday_event(event_list: list) -> list:
                 "main": True
             }
             enumerated_event_list.append(enumerated_event)
+            last_date = event["startDatetime"]
+
             for date in [event["startDatetime"] + datetime.timedelta(i) for i in range(1, duration.days)]:
                 enumerated_event = {
                     "summary": event["summary"],
