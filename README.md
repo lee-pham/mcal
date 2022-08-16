@@ -35,13 +35,13 @@ sudo raspi-config
 3. Run the following commands in the RPi Terminal to setup the environment to run the Python scripts.
 
 ```shell
-sudo apt install chromium
+sudo apt install chromium-chromedriver libatlas-base-dev
 ```
 
 4. Clone the repo and create and activate a virtual environment and install dependencies
 ```shell
 cd mcal/
-python -m venv venv
+python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 ```
