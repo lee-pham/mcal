@@ -11,7 +11,6 @@ import json
 import logging
 import platform
 import sys
-import time
 from pytz import timezone
 
 from gcal.gcal import GcalHelper
