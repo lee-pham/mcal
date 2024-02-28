@@ -20,8 +20,8 @@ from utils.date_parse import enumerate_multiday_event
 
 
 def main():
-    # Only drive the EPD when running on Raspberry Pi
-    is_rpi = platform.system() == "Linux"
+    # Only drive the EPD when running on Raspberry Pip
+    is_rpi = platform.machine() == "armv7l"
 
     # Basic configuration settings (user replaceable)
     configFile = open('config.json')
