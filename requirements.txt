@@ -1,4 +1,4 @@
-adjustText==1.0.4
+adjustText==0.7.3
 attrs==23.2.0
 cachetools==5.3.3
 certifi==2024.2.2
