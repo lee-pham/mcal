@@ -69,7 +69,7 @@ class Timeline:
     def render(self):
         # Create figure and plot a stem plot with the date
         # fig, ax = plt.subplots(figsize=(8.8, 4), constrained_layout=True)
-        fig, ax = plt.subplots(figsize=(8.8, 4), constrained_layout=False)
+        fig, ax = plt.subplots(figsize=(14.5, 4), constrained_layout=False)
 
         # Black line for the entire timeline
         ax.plot([0, 24 * 60], [0, 0], "-", color="k", linewidth=TIMELINE_WIDTH)

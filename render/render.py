@@ -250,8 +250,6 @@ class RenderHelper:
             cal_events_text += '</li>\n'
 
         # Append the bottom and write the file
-        print(calList)
-        # print(timeline_events)
         Timeline(timeline_events).render()
         htmlFile = open(self.currPath + '/calendar.html', "w")
         htmlFile.write(calendar_template.format(month=month_name, dayOfWeek=cal_days_of_week,

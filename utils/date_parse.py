@@ -12,7 +12,6 @@ def enumerate_multiday_event(event_list: list) -> list:
                     event["endDatetime"] -= datetime.timedelta(hours=1)
 
             duration = event["endDatetime"] + datetime.timedelta(microseconds=1) - event["startDatetime"]
-            print("Multiday:", event, duration)
             enumerated_event = {
                 "summary": event["summary"],
                 "startDatetime": event["startDatetime"],

@@ -100,9 +100,9 @@ Calendar Styling */
 }
 
 .top-header {
-    font-family: Quattrocento-Regular;
-    margin-left: 1rem;
-    margin-right: 1rem;
+    font-family: "Quattrocento-Regular";
+    margin-left: 2rem;
+    margin-right: 2rem;
 }
 
 .time-info {
@@ -162,17 +162,19 @@ Calendar Styling */
 
 .datecircle {
     margin: 0rem auto;
-    width: 4.1rem;
-    height: 4.1rem;
+    width: 6rem;
+    height: 6rem;
     border-radius: 10rem;
     font-family: "Quattrocento-Regular";
     font-size: 2rem;
     color: white;
-    line-height: 4.1rem;
     text-align: center;
     vertical-align: middle;
     background: #ff0000;
     margin-top: -1rem;
+    line-height: 6rem;
+    position: relative;
+    top: -1rem
 }
 
 .calendar .days li .event {
@@ -183,10 +185,11 @@ Calendar Styling */
     /* font-family: "Judson-Regular";*/
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: clip;
+    text-overflow:ellipsis;
     border-radius: 0rem;
     color: #000000;
     border-top: 1px solid white;
+    margin-left: 1.1rem;
 }
 
 .calendar .days li .event.span-2 {
