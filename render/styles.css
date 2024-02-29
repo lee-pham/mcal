@@ -174,7 +174,8 @@ Calendar Styling */
     margin-top: -1rem;
     line-height: 6rem;
     position: relative;
-    top: -1rem
+    top: -1rem;
+    font-weight: bold;
 }
 
 .calendar .days li .event {
@@ -220,17 +221,6 @@ Calendar Styling */
     color: #ddd;
 }
 
-/*.css-who {*/
-/*    border-top: 1px solid white;*/
-/*    margin-bottom: 0;*/
-/*}*/
-/*
-*
-* ==========================================
-* FOR DEMO PURPOSES
-* ==========================================
-*
-*/
 body {
     min-height: 100vh;
     background-color: #ffffff;
