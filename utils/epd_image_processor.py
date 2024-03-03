@@ -1,4 +1,4 @@
-from PIL import Image
+from PIL import Image, ImageOps
 
 
 def convert_image_to_list_of_bytes(
@@ -7,16 +7,18 @@ def convert_image_to_list_of_bytes(
         num_subpanels: int
         ) -> list[bytes]:
 
-    resized_bmp = img.resize(desired_resolution).convert("1")
+    img.thumbnail(desired_resolution, resample=Image.Resampling.LANCZOS, reducing_gap=3.0)
+    resized_padded_bmp = ImageOps.pad(img, desired_resolution, color="#FFF").convert("1")
+    processed_image = ImageOps.mirror(ImageOps.invert(resized_padded_bmp))
 
     cropped_images = []
     subheight = desired_resolution[1] // num_subpanels
     for y in range(0, desired_resolution[1], subheight):
-        cropped_images.append(resized_bmp.crop((0, y, desired_resolution[0], y + subheight)))
+        cropped_images.append(processed_image.crop((0, y, desired_resolution[0], y + subheight)))
 
     list_of_bytes = []
     for image in cropped_images:
-        list_of_bytes.append(image.tobytes())
+        list_of_bytes.append(image.transpose(Image.TRANSPOSE).tobytes())
 
     return list_of_bytes
 
@@ -41,3 +43,8 @@ class TestEPDImageProcessor:
 
     def test_returns_output_len_equal_to_num_subpanels(self):
         assert len(self.test_output) == self.test_num_subpanels
+
+
+for i, data in enumerate(convert_image_to_list_of_bytes(Image.open("calendar.png"), (768, 960), 2)):
+    with open(f"text{i}.txt","w+") as f:
+        f.write("".join([f"0x{e}," for e in data.hex("x").split("x")]) + "};")
