@@ -6,3 +6,7 @@ token.json
 logfile.log
 .DS_Store
 __pycache__/
+calendar.html
+timeline.png
+calendar.png
+sandbox/
