@@ -64,13 +64,8 @@ body {
 }
 
 @font-face {
-    font-family: "Quattrocento-Bold";
-    src: url('Quattrocento-Bold.ttf');
-}
-
-@font-face {
-    font-family: "Quattrocento-Regular";
-    src: url('Quattrocento-Regular.ttf');
+    font-family: "hiragino-serif";
+    src: url('./hiragino.otf');
 }
 
 .container {
@@ -100,25 +95,25 @@ Calendar Styling */
 }
 
 .top-header {
-    font-family: "Quattrocento-Regular";
+    font-family: "hiragino-serif";
     margin-left: 2rem;
     margin-right: 2rem;
 }
 
 .time-info {
-    font-size: 1.25rem;
+    font-size: 1.5rem;
 }
 
 .month {
-    font-size: 9rem;
-    font-family: "Quattrocento-Regular";
+    font-size: 11rem;
+    font-family: "hiragino-serif";
 }
 
 @media (min-width: 992px) {
     .month {
         font-size: 13rem;
         line-height: 13rem;
-        font-family: "Quattrocento-Regular";
+        font-family: "hiragino-serif";
     }
 }
 
@@ -130,7 +125,7 @@ Calendar Styling */
 .calendar .day-names {
     font-size: 1.5rem;
     line-height: 1.2;
-    font-family: "Quattrocento-Regular";
+    font-family: "hiragino-serif";
     margin-top: .75rem;
 }
 
@@ -153,7 +148,7 @@ Calendar Styling */
     text-align: center;
     font-size: 2rem;
     font-weight: bold;
-    font-family: "Quattrocento-Regular";
+    font-family: "hiragino-serif";
 }
 
 .datecirclebox {
@@ -165,7 +160,7 @@ Calendar Styling */
     width: 6rem;
     height: 6rem;
     border-radius: 10rem;
-    font-family: "Quattrocento-Regular";
+    font-family: "hiragino-serif";
     font-size: 2rem;
     color: white;
     text-align: center;
@@ -179,7 +174,7 @@ Calendar Styling */
 }
 
 .calendar .days li .event {
-    font-size: .75rem;
+    font-size: .7rem;
     /* font-weight: bold;*/
     padding: 0.1rem;
     /* color: black; */
