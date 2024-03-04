@@ -7,7 +7,7 @@
 - [Raspberry Pi](https://www.raspberrypi.org) - Header pins are needed to connect to the E-Ink
   display
 - [Waveshare 12.48" Tri-color E-Ink Display](https://www.waveshare.com/product/12.48inch-e-paper-module-b.htm) -
-  Unfortunately out of stock at the time this is published, so I adapted the code to work with the [7.5" Display](https://www.waveshare.com/7.5inch-e-paper-hat-b.htm)
+  Unfortunately out of stock at the time this was published, so I adapted the code to work with the [7.5" Display](https://www.waveshare.com/7.5inch-e-paper-hat-b.htm)
 
 ## Some features of the calendar:
 
@@ -74,14 +74,8 @@ crontab -e
 */5 * * * * cd /home/pi/mcal/ && /home/pi/mcal/venv/bin/python /home/pi/mcal/maginkcal.py
 ```
 
-11. That's it!
-
-PS: I'm aware that the instructions above may not be complete, especially when it comes to the Python libraries to be
-installed, so feel free to ping me if you noticed anything missing and I'll add it to the steps above.
-
 ## Acknowledgements
 - [MagInkCal](https://github.com/speedyg0nz/maginkcal): Built out the initial concept and is the backbone of this code
-- [Quattrocento Font](https://fonts.google.com/specimen/Quattrocento): Font used for the calendar display
 - [Bootstrap Calendar CSS](https://bootstrapious.com/p/bootstrap-calendar): Stylesheet that was adapted heavily for the
   calendar display
 - [emagra](https://github.com/emagra): For adding in new features, such as 24hr display and multiple calendar selection.
