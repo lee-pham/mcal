@@ -8,7 +8,7 @@ def convert_image_to_list_of_bytes(
         ) -> list[bytes]:
 
     img.thumbnail(desired_resolution, resample=Image.Resampling.LANCZOS, reducing_gap=3.0)
-    resized_padded_bmp = ImageOps.pad(img, desired_resolution, color="#FFF").convert("1")
+    resized_padded_bmp = ImageOps.pad(img, desired_resolution, color="#FFF").convert("1", dither=Image.Dither.NONE)
     processed_image = ImageOps.mirror(ImageOps.invert(resized_padded_bmp))
 
     cropped_images = []
@@ -45,6 +45,6 @@ class TestEPDImageProcessor:
         assert len(self.test_output) == self.test_num_subpanels
 
 
-for i, data in enumerate(convert_image_to_list_of_bytes(Image.open("calendar.png"), (768, 960), 2)):
+for i, data in enumerate(convert_image_to_list_of_bytes(Image.open("../render/calendar.png"), (768, 960), 2)):
     with open(f"text{i}.txt","w+") as f:
         f.write("".join([f"0x{e}," for e in data.hex("x").split("x")]) + "};")
