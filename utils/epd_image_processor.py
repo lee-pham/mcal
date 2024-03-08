@@ -46,7 +46,7 @@ class TestEPDImageProcessor:
 
 
 import serial
-ser = serial.Serial("COM5", 9600)
+ser = serial.Serial("COM5", 115200)
 print(ser.write(convert_image_to_list_of_bytes(Image.open("../render/calendar.png"), (768, 960), 2)[0]))
 print(ser.write(convert_image_to_list_of_bytes(Image.open("../render/calendar.png"), (768, 960), 2)[0]))
 print(ser.write(convert_image_to_list_of_bytes(Image.open("../render/calendar.png"), (768, 960), 2)[1]))

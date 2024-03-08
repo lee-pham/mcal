@@ -19,7 +19,7 @@ void setup()
   digitalWrite(LED_BUILTIN, HIGH);
   // Initialize CoG
   // epdtest.COG_initial();
-  Serial.begin(9600);
+  Serial.begin(115200);
     while (!Serial);
     Serial.readBytes(Primary_b, 46080);
     Serial.readBytes(Primary_r, 46080);
