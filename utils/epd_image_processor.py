@@ -45,9 +45,4 @@ class TestEPDImageProcessor:
         assert len(self.test_output) == self.test_num_subpanels
 
 
-import serial
-ser = serial.Serial("COM5", 115200)
-print(ser.write(convert_image_to_list_of_bytes(Image.open("../render/calendar.png"), (768, 960), 2)[0]))
-print(ser.write(convert_image_to_list_of_bytes(Image.open("../render/calendar.png"), (768, 960), 2)[0]))
-print(ser.write(convert_image_to_list_of_bytes(Image.open("../render/calendar.png"), (768, 960), 2)[1]))
-print(ser.write(convert_image_to_list_of_bytes(Image.open("../render/calendar.png"), (768, 960), 2)[1]))
+convert_image_to_list_of_bytes(Image.open("../render/calendar.png"), (768, 960), 2)
