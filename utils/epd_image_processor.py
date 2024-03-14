@@ -5,8 +5,7 @@ def convert_image_to_list_of_bytes(
         img: Image.Image,
         desired_resolution: tuple[int, int],
         num_subpanels: int
-        ) -> list[bytes]:
-
+) -> list[bytes]:
     img.thumbnail(desired_resolution, resample=Image.Resampling.LANCZOS, reducing_gap=3.0)
     resized_padded_bmp = ImageOps.pad(img, desired_resolution, color="#FFF").convert("1", dither=Image.Dither.NONE)
     processed_image = ImageOps.mirror(ImageOps.invert(resized_padded_bmp))
@@ -38,7 +37,7 @@ class TestEPDImageProcessor:
     def test_returns_size_in_bytes(self):
         total_size = 0
         for image_data in self.test_output:
-            total_size += len(image_data)        
+            total_size += len(image_data)
         assert total_size == self.test_width * self.test_height / self.BITS_IN_A_BYTE
 
     def test_returns_output_len_equal_to_num_subpanels(self):
