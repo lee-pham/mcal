@@ -8,29 +8,11 @@ frames = convert_image_to_list_of_bytes(
     2
 )
 
+
 app = Flask(__name__)
 
 
-@app.route("/0")
-def handle0():
-    text = frames[0].hex()
-    return Response(text, mimetype="text/plain")
-
-
-@app.route("/1")
-def handle1():
-    text = frames[1].hex()
-    return Response(text, mimetype="text/plain")
-
-
-@app.route("/2")
-def handle2():
-    text = frames[0].hex()
-    return Response(text, mimetype="text/plain")
-
-
-@app.route("/3")
-def handle3():
-    text = frames[1].hex()
-    print("last frame sent")
-    return Response(text, mimetype="text/plain")
+@app.route("/")
+def index():
+    payload = frames[0]
+    return Response(payload, mimetype="application/octet-stream")
