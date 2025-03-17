@@ -1,11 +1,7 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
 This is where we retrieve events from the Google Calendar. Before doing so, make sure you have both the
 credentials.json and token.pickle in the same folder as this file. If not, run quickstart.py first.
 """
-
-from __future__ import print_function
 
 import datetime as dt
 import logging
@@ -19,7 +15,6 @@ from googleapiclient.discovery import build
 
 
 class GcalHelper:
-
     def __init__(self):
         self.logger = logging.getLogger('maginkcal')
         # Initialise the Google Calendar using the provided credentials and token

@@ -1,12 +1,8 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
 Run this script first to obtain the token. Credentials.json must be in the same folder first.
 To obtain Credentials.json, follow the instructions listed in the following link.
 https://developers.google.com/calendar/api/quickstart/python
 """
-
-from __future__ import print_function
 
 import datetime
 import os.path
@@ -60,7 +56,3 @@ def main():
         end = event['end'].get('dateTime', event['start'].get('date'))
         updated = event['updated']
         print(start + " | " + end + " | " + updated + " | " + event['summary'])
-
-
-if __name__ == '__main__':
-    main()
