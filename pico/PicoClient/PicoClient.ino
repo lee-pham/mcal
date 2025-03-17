@@ -1,82 +1,155 @@
-#include <Arduino.h>
+// Screen
+#include "PDLS_EXT3_Basic_Global.h"
+
+// SDK
+// #include <Arduino.h>
+#include "hV_HAL_Peripherals.h"
+
+// Include application, user and local libraries
+// #include <SPI.h>
+
+// Configuration
+#include "hV_Configuration.h"
+
+// Set parameters
+
+// Define variables and constants
+const pins_t boardRaspberryPiPicoW_RP2040 = {
+  .panelBusy = 9,               ///< EXT3 and EXT3.1 pin 3 Red -> GP13
+  .panelDC = 8,                 ///< EXT3 and EXT3.1 pin 4 Orange -> GP12
+  .panelReset = 7,              ///< EXT3 and EXT3.1 pin 5 Yellow -> GP11
+  .flashCS = 6,                 ///< EXT3 and EXT3.1 pin 8 Violet -> GP10
+                                //
+  .panelCS = 13,                ///< EXT3 and EXT3.1 pin 9 Grey -> GP17
+  .panelCSS = 20,               ///< EXT3 and EXT3.1 pin 12 Grey2 -> GP14
+  .flashCSS = 21,               ///< EXT3 pin 20 or EXT3.1 pin 11 Black2 -> GP15
+  .touchInt = NOT_CONNECTED,    ///< EXT3-Touch pin 3 Red -> GP2
+  .touchReset = NOT_CONNECTED,  ///< EXT3-Touch pin 4 Orange -> GP3
+  .panelPower = NOT_CONNECTED,  ///< Optional power circuit
+  .cardCS = NOT_CONNECTED,      ///< Separate SD-card board
+  .cardDetect = NOT_CONNECTED,  ///< Separate SD-card board
+};
+
+Screen_EPD_EXT3 myScreen(eScreen_EPD_B98_FS_08, boardRaspberryPiPicoW_RP2040);
+
+
 #include <WiFi.h>
-#include <HTTPClient.h>
 
-#ifndef STASSID
-#define STASSID ""
-#define STAPSK ""
-#endif
+// Replace with your network credentials
+const char* ssid = "";
+const char* password = "";
 
-const char *ssid = STASSID;
-const char *pass = STAPSK;
+// Server details
+const char* host = "192.168.4.143";
+const int port = 5000;
 
-WiFiMulti WiFiMulti;
+WiFiClient client;
+
+const int totalDataSize = 960 * 768 / 8;
+int bytesRead = 0;
+
+int initialFreeHeap = rp2040.getFreeHeap();
 
 void setup() {
-
   Serial.begin(115200);
+  myScreen.begin();
+  myScreen.clear();
 
-  Serial.println();
-  Serial.println();
-  Serial.println();
+  Serial.println("Connecting to WiFi");
+  WiFi.begin(ssid, password);
 
-  for (uint8_t t = 4; t > 0; t--) {
-    Serial.printf("[SETUP] WAIT %d...\n", t);
-    Serial.flush();
+  while (WiFi.status() != WL_CONNECTED) {
     delay(1000);
+    Serial.print(".");
   }
-
-  WiFiMulti.addAP(ssid, pass);
+  Serial.println("\nConnected to WiFi");
+  if (client.connect(host, port)) {
+    Serial.println("Connected to server");
+  } else {
+    Serial.println("Connection failed. Rebooting.");
+    rp2040.reboot();
+  }
 }
 
 void loop() {
-  // wait for WiFi connection
-  if ((WiFiMulti.run() == WL_CONNECTED)) {
-
-    HTTPClient http;
-
-    Serial.print("[HTTP] begin...\n");
-    if (http.begin("http://192.168.1.65:5000")) {  // HTTP
-
-
-      Serial.print("[HTTP] GET...\n");
-      // start connection and send HTTP header
-      int httpCode = http.GET();
-
-      // httpCode will be negative on error
-      if (httpCode > 0) {
-        // HTTP header has been send and Server response header has been handled
-        Serial.printf("[HTTP] GET... code: %d\n", httpCode);
-
-        // file found at server
-        if (httpCode == HTTP_CODE_OK || httpCode == HTTP_CODE_MOVED_PERMANENTLY) {
-          int length = http.getSize();
-          uint8_t *buffer = new uint8_t[length];
-          WiFiClient &stream = http.getStream();
-          int bytesRead = 0;
-          while (http.connected() && (bytesRead < length)) {
-            size_t size = stream.available();
-            if (size) {
-              int c = stream.readBytes(buffer + bytesRead, size);
-              bytesRead += c;
-            }
+  int x = 0;
+  int y = 0;
+  Serial.println("Requesting transfer");
+  client.print("Ready to receive");
+  bool transferIncomplete = true;
+  while (transferIncomplete) {
+    if (client.available()) {
+      Serial.println("Transfer in progress");
+      String progress = "";
+      while (client.available()) {
+        byte receivedByte = client.read();  // Read a single byte
+        for (int b = 0; b < 8; b++) {
+          if (bitRead(receivedByte, 7 - b) == 1) {
+            myScreen.point(x + b, y, myColours.red);
+          } else {
+            myScreen.point(x + b, y, myColours.white);
           }
-          Serial.print("Payload as byte array: ");
-          for (int i = 0; i < length; i++) {
-            Serial.printf("%02x ", buffer[i]);
-          }
-          Serial.println();
-          Serial.println(buffer[length - 1]);
-          delete[] buffer;
         }
-      } else {
-        Serial.printf("[HTTP] GET... failed, error: %s\n", http.errorToString(httpCode).c_str());
-      }
 
-      http.end();
-    } else {
-      Serial.printf("[HTTP} Unable to connect\n");
+        // if (receivedByte == '1') {
+        //   myScreen.point(x, y, myColours.red);
+        //   myScreen.point(x + 1, y, myColours.red);
+        //   myScreen.point(x + 2, y, myColours.red);
+        //   myScreen.point(x + 3, y, myColours.red);
+        //   myScreen.point(x + 4, y, myColours.red);
+        //   myScreen.point(x + 5, y, myColours.red);
+        //   myScreen.point(x + 6, y, myColours.red);
+        //   myScreen.point(x + 7, y, myColours.red);
+
+        // } else {
+        //   myScreen.point(x, y, myColours.white);
+        //   myScreen.point(x + 1, y, myColours.white);
+        //   myScreen.point(x + 2, y, myColours.white);
+        //   myScreen.point(x + 3, y, myColours.white);
+        //   myScreen.point(x + 4, y, myColours.white);
+        //   myScreen.point(x + 5, y, myColours.white);
+        //   myScreen.point(x + 6, y, myColours.white);
+        //   myScreen.point(x + 7, y, myColours.white);
+        // }
+        x += 8;
+        if (x >= myScreen.screenSizeX()) {
+          x = 0;
+          y += 1;
+        }
+        if (x == myScreen.screenSizeX() && y == myScreen.screenSizeY()) {
+          x = 0;
+          y = 0;
+        }
+        bytesRead++;
+        if (bytesRead % 1840 == 0) {
+          progress += "#";
+          Serial.print("[" + progress);
+          String spaces = "";
+          for (int i = 0; i < 50 - progress.length(); i++) {
+            spaces += " ";
+          }
+          Serial.print(spaces);
+          Serial.println("]\t" + String(bytesRead) + "\t/\t" + String(totalDataSize));
+        } else if (bytesRead == totalDataSize) {
+          Serial.print("[##################################################]\t");
+          Serial.println(String(bytesRead) + "\t/\t" + String(totalDataSize) + "\tTransfer complete!");
+          transferIncomplete = false;
+          bytesRead = 0;
+          // Serial.println(String(initialFreeHeap) + " " + String(rp2040.getFreeHeap()));
+          Serial.print(bitRead(receivedByte, 7));
+          Serial.print(bitRead(receivedByte, 6));
+          Serial.print(bitRead(receivedByte, 5));
+          Serial.print(bitRead(receivedByte, 4));
+          Serial.print(bitRead(receivedByte, 3));
+          Serial.print(bitRead(receivedByte, 2));
+          Serial.print(bitRead(receivedByte, 1));
+          Serial.println(bitRead(receivedByte, 0));
+        }
+      }
     }
   }
-  delay(5000);
+  Serial.println("Drawing screen");
+  myScreen.flush();
+  Serial.println("Draw complete");
+  delay(10000);
 }

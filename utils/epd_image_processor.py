@@ -1,28 +1,16 @@
 from PIL import Image, ImageOps
 
 
-def convert_image_to_list_of_bytes(
+def convert_image_to_bytes(
         img: Image.Image,
         desired_resolution: tuple[int, int],
-        num_subpanels: int
-) -> list[bytes]:
-    img.thumbnail(desired_resolution, resample=Image.Resampling.LANCZOS, reducing_gap=3.0)
-    resized_padded_bmp = ImageOps.pad(img, desired_resolution, color="#FFF").convert("1", dither=Image.Dither.NONE)
+) -> bytes:
+    resized_padded_bmp = img.convert("1", dither=Image.Dither.NONE)
     processed_image = ImageOps.mirror(ImageOps.invert(resized_padded_bmp))
+    processed_image = processed_image.transpose(Image.TRANSPOSE)
+    return processed_image.tobytes()
 
-    cropped_images = []
-    subheight = desired_resolution[1] // num_subpanels
-    for y in range(0, desired_resolution[1], subheight):
-        cropped_images.append(processed_image.crop((0, y, desired_resolution[0], y + subheight)))
-
-    list_of_bytes = []
-    for image in cropped_images:
-        list_of_bytes.append(image.transpose(Image.TRANSPOSE).tobytes())
-
-    return list_of_bytes
-
-
-class TestEPDImageProcessor:
+# class TestEPDImageProcessor:
     test_image = Image.open("test_image.png")
     test_width = 768
     test_height = 960
@@ -44,4 +32,4 @@ class TestEPDImageProcessor:
         assert len(self.test_output) == self.test_num_subpanels
 
 
-convert_image_to_list_of_bytes(Image.open("../render/calendar.png"), (768, 960), 2)
+# convert_image_to_list_of_bytes(Image.open("../utils/test_image.png"), (768, 960), 2)
