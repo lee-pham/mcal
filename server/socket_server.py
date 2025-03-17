@@ -17,8 +17,6 @@ hostname = socket.gethostname()
 ip_address = socket.gethostbyname(hostname)
 print(f"Server available at {ip_address}:{SERVER_PORT}")
 
-
-
 payload = convert_image_to_bytes(
     Image.open(("C:/Users/peppo/mcal/utils/test_image.png")),
     (768, 960),
