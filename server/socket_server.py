@@ -29,5 +29,7 @@ data = client_socket.recv(1024)
 print(f"Received request: {data.decode('utf-8')}")
 
 data_to_send = payload
+# data_to_send = "\x00" * (960 * 768 // 8)
+# data_to_send = data_to_send.encode("latin1")
 client_socket.sendall(data_to_send)
 print(f"Sent data: {data_to_send[:8]} ... {data_to_send[-8:]}")
