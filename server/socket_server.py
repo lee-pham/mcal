@@ -1,6 +1,5 @@
-import sys
 import socket
-import random
+
 from PIL import Image
 
 from utils.epd_image_processor import convert_image_to_bytes
@@ -18,7 +17,7 @@ ip_address = socket.gethostbyname(hostname)
 print(f"Server available at {ip_address}:{SERVER_PORT}")
 
 payload = convert_image_to_bytes(
-    Image.open(("C:/Users/peppo/mcal/utils/test_image.png")),
+    Image.open("C:/Users/peppo/mcal/utils/test_image.png"),
     (768, 960),
 )
 

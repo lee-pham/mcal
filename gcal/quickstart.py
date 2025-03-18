@@ -56,3 +56,7 @@ def main():
         end = event['end'].get('dateTime', event['start'].get('date'))
         updated = event['updated']
         print(start + " | " + end + " | " + updated + " | " + event['summary'])
+
+
+if __name__ == "__main__":
+    main()
