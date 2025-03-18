@@ -33,7 +33,6 @@ Screen_EPD_EXT3 myScreen(eScreen_EPD_B98_FS_08, boardRaspberryPiPicoW_RP2040);
 WiFiClient client;
 
 const int totalDataSize = 960 * 768 / 8;
-int bytesRead = 0;
 
 int initialFreeHeap = rp2040.getFreeHeap();
 
@@ -47,18 +46,20 @@ void setup() {
     Serial.print(".");
   }
   Serial.println("\nConnected to WiFi");
-  if (client.connect(host, port)) {
-    Serial.println("Connected to server");
-  } else {
-    Serial.println("Connection failed. Rebooting.");
-    rp2040.reboot();
-  }
 
   myScreen.begin();
   myScreen.clear();
+  Serial.println("Connecting to server");
 }
 
 void loop() {
+  while (!client.connect(host, port)) {
+    Serial.println("Unable to connect. Retrying.");
+    delay(1000);
+  }
+  Serial.println("Connected to server\n");
+
+  int bytesRead = 0;
   int x = 0;
   int y = 0;
   Serial.println("Requesting transfer");
@@ -100,7 +101,8 @@ void loop() {
           Serial.print("[##################################################]\t");
           Serial.println(String(bytesRead) + "\t/\t" + String(totalDataSize) + "\tTransfer complete!");
           transferIncomplete = false;
-          bytesRead = 0;
+          client.stop();
+          Serial.println("Disconnected from server");
           // Serial.println(String(initialFreeHeap) + " " + String(rp2040.getFreeHeap()));
         }
       }
@@ -109,5 +111,4 @@ void loop() {
   Serial.println("Drawing screen");
   myScreen.flush();
   Serial.println("Draw complete");
-  delay(10000);
 }

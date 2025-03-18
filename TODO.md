@@ -6,6 +6,7 @@
 - [ ] If multiday event is on maxevents + 1 of previous, the current event gets displayed on the maxevent + 1 line
 - [ ] If multiday event spans across weeks, it takes the lane of the previous week, which isn't consistent with how gcal
   handles it
+- [ ] Implement 12 hour clock format
 
 ## UI
 

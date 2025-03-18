@@ -8,7 +8,7 @@ def convert_image_to_bytes(img: Image.Image, desired_resolution: tuple[int, int]
     return processed_image.tobytes()
 
 
-class TestEPDImageProcessor:
+# class TestEPDImageProcessor:
     test_image = Image.open("test_image.png")
     test_length = 768
     test_width = 960

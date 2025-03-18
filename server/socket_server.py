@@ -17,22 +17,17 @@ ip_address = socket.gethostbyname(hostname)
 print(f"Server available at {ip_address}:{SERVER_PORT}")
 
 payload = convert_image_to_bytes(
-    Image.open("C:/Users/peppo/mcal/utils/test_image.png"),
-    (768, 960),
+    # Image.open("C:/Users/peppo/mcal/utils/test_image.png"), (768, 960),
+    Image.open("C:/Users/peppo/mcal/render/calendar.png"), (768, 960),    
 )
 
-while True:
-    client_socket, client_address = server_socket.accept()
-    print(f"Connection from {client_address} established.")
+client_socket, client_address = server_socket.accept()
+print(f"Connection from {client_address} established.")
 
-    try:
-        while True:
-            data = client_socket.recv(1024)
-            print(f"Received request: {data.decode('utf-8')}")
 
-            data_to_send = payload
-            client_socket.sendall(data_to_send)
-            print(f"Sent data: {data_to_send[:8]} ... {data_to_send[-8:]}")
-    finally:
-        client_socket.close()
-        print("Client disconnected.")
+data = client_socket.recv(1024)
+print(f"Received request: {data.decode('utf-8')}")
+
+data_to_send = payload
+client_socket.sendall(data_to_send)
+print(f"Sent data: {data_to_send[:8]} ... {data_to_send[-8:]}")

@@ -19,7 +19,7 @@
   "screenWidth": 768,
   "screenHeight": 960,
   "rotateAngle": 270,
-  "is24h": true,
+  "is24h": false,
   "calendars": [
     "primary"
   ]
