@@ -3,6 +3,7 @@
 #include "PDLS_EXT3_Basic_Global.h"
 #include "hV_HAL_Peripherals.h"
 #include "hV_Configuration.h"
+bool updateScreen = false;
 
 const char* ssid = "";
 const char* password = "";
@@ -47,8 +48,12 @@ void setup() {
   }
   Serial.println("\nConnected to WiFi");
 
-  myScreen.begin();
-  myScreen.clear();
+  if (updateScreen) {
+    myScreen.begin();
+    myScreen.clear();
+  } else {
+    Serial.println("Screen updates disabled");
+  }
   Serial.println("Connecting to server");
 }
 
@@ -63,7 +68,6 @@ void loop() {
   int x = 0;
   int y = 0;
   Serial.println("Requesting transfer");
-  client.print("Ready to receive");
   bool transferIncomplete = true;
   while (transferIncomplete) {
     if (client.available()) {
@@ -101,14 +105,19 @@ void loop() {
           Serial.print("[##################################################]\t");
           Serial.println(String(bytesRead) + "\t/\t" + String(totalDataSize) + "\tTransfer complete!");
           transferIncomplete = false;
-          client.stop();
-          Serial.println("Disconnected from server");
+          client.write(0x06);
           // Serial.println(String(initialFreeHeap) + " " + String(rp2040.getFreeHeap()));
         }
       }
     }
   }
-  Serial.println("Drawing screen");
-  myScreen.flush();
-  Serial.println("Draw complete");
+  client.stop();
+  Serial.println("Disconnected from server");
+  if (updateScreen) {
+    Serial.println("Drawing screen");
+    myScreen.flush();
+    Serial.println("Draw complete");
+  } else {
+    Serial.println("Screen updates disabled");
+  }
 }

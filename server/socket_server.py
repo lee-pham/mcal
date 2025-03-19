@@ -1,8 +1,8 @@
 import socket
-
 from PIL import Image
-
 from utils.epd_image_processor import convert_image_to_bytes
+
+ACK: bytes = (6).to_bytes()
 
 SERVER_IP = '0.0.0.0'
 SERVER_PORT = 5000
@@ -24,12 +24,10 @@ payload = convert_image_to_bytes(
 client_socket, client_address = server_socket.accept()
 print(f"Connection from {client_address} established.")
 
-
-data = client_socket.recv(1024)
-print(f"Received request: {data.decode('utf-8')}")
-
 data_to_send = payload
 # data_to_send = "\x00" * (960 * 768 // 8)
 # data_to_send = data_to_send.encode("latin1")
 client_socket.sendall(data_to_send)
 print(f"Sent data: {data_to_send[:8]} ... {data_to_send[-8:]}")
+if client_socket.recv(1) == ACK:
+    print(f"{ip_address} transfer complete and begin processing")
