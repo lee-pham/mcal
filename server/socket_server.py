@@ -24,10 +24,10 @@ payload = convert_image_to_bytes(
 client_socket, client_address = server_socket.accept()
 print(f"Connection from {client_address} established.")
 
-data_to_send = payload
+data_to_send = payload + payload
 # data_to_send = "\x00" * (960 * 768 // 8)
 # data_to_send = data_to_send.encode("latin1")
 client_socket.sendall(data_to_send)
-print(f"Sent data: {data_to_send[:8]} ... {data_to_send[-8:]}")
+print(f"Sent {len(data_to_send)} bytes: {data_to_send[:8]} ... {data_to_send[-8:]}")
 if client_socket.recv(1) == ACK:
     print(f"{ip_address} transfer complete and begin processing")

@@ -3,12 +3,12 @@
 #include "PDLS_EXT3_Basic_Global.h"
 #include "hV_HAL_Peripherals.h"
 #include "hV_Configuration.h"
-bool updateScreen = false;
+bool updateScreen = true;
 
 const char* ssid = "";
 const char* password = "";
 
-const char* host = "192.168.4.143";
+const char* host = "192.168.4.142";
 const int port = 5000;
 
 // Define variables and constants
@@ -33,7 +33,7 @@ Screen_EPD_EXT3 myScreen(eScreen_EPD_B98_FS_08, boardRaspberryPiPicoW_RP2040);
 
 WiFiClient client;
 
-const int totalDataSize = 960 * 768 / 8;
+const int totalDataSize = 2 * 960 * 768 / 8;
 
 int initialFreeHeap = rp2040.getFreeHeap();
 
@@ -77,9 +77,11 @@ void loop() {
         byte receivedByte = client.read();
         for (int b = 0; b < 8; b++) {
           if (bitRead(receivedByte, 7 - b) == 1) {
-            myScreen.point(x + b, y, myColours.red);
-          } else {
-            myScreen.point(x + b, y, myColours.white);
+            if (bytesRead < (totalDataSize / 2)) {
+              myScreen.point(x + b, y, myColours.red);
+            } else {
+              myScreen.point(x + b, y, myColours.black);
+            }
           }
         }
         x += 8;
@@ -87,12 +89,11 @@ void loop() {
           x = 0;
           y += 1;
         }
-        if (x == myScreen.screenSizeX() && y == myScreen.screenSizeY()) {
-          x = 0;
+        if (y >= myScreen.screenSizeY()) {
           y = 0;
         }
         bytesRead++;
-        if (bytesRead % 1840 == 0) {
+        if (bytesRead % (totalDataSize / 50) == 0) {
           progress += "#";
           Serial.print("[" + progress);
           String spaces = "";
